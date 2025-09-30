@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
+      <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.9" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.9" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="bin\Debug\net9.0\MiniGitHubDB.sqlite3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="bin\Debug\net9.0\" />
+    </ItemGroup>
+
+</Project>
