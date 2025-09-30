@@ -1,7 +1,9 @@
 # GitHub like platform
 
-Presentation - django views
-Domain - django view funtions
+Presentation
+- web: Flask + Jinja2
+Domain 
+- django view funtions
 DataAccess - sqlite3 package
 Database - sqlite3 local database
 
