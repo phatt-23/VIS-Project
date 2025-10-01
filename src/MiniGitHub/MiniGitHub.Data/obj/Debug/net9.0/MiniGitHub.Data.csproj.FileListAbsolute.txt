@@ -1,0 +1,13 @@
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Data/bin/Debug/net9.0/MiniGitHub.Data.deps.json
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Data/bin/Debug/net9.0/MiniGitHub.Data.dll
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Data/bin/Debug/net9.0/MiniGitHub.Data.pdb
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Data/obj/Debug/net9.0/MiniGitHub.Data.csproj.AssemblyReference.cache
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Data/obj/Debug/net9.0/MiniGitHub.Data.GeneratedMSBuildEditorConfig.editorconfig
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Data/obj/Debug/net9.0/MiniGitHub.Data.AssemblyInfoInputs.cache
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Data/obj/Debug/net9.0/MiniGitHub.Data.AssemblyInfo.cs
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Data/obj/Debug/net9.0/MiniGitHub.Data.csproj.CoreCompileInputs.cache
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Data/obj/Debug/net9.0/MiniGitHub.Data.sourcelink.json
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Data/obj/Debug/net9.0/MiniGitHub.Data.dll
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Data/obj/Debug/net9.0/refint/MiniGitHub.Data.dll
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Data/obj/Debug/net9.0/MiniGitHub.Data.pdb
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Data/obj/Debug/net9.0/ref/MiniGitHub.Data.dll
