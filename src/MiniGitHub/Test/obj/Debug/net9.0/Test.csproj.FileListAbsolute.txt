@@ -92,3 +92,5 @@
 /home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/Test/bin/Debug/net9.0/runtimes/win-arm64/native/e_sqlite3.dll
 /home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/Test/bin/Debug/net9.0/runtimes/win-x64/native/e_sqlite3.dll
 /home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/Test/bin/Debug/net9.0/runtimes/win-x86/native/e_sqlite3.dll
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/Test/bin/Debug/net9.0/MiniGitHub.Domain.dll
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/Test/bin/Debug/net9.0/MiniGitHub.Domain.pdb

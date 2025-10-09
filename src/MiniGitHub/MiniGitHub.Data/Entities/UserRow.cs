@@ -17,6 +17,6 @@ public class UserRow {
     }
 
     public override string ToString() {
-        return $"UserId {UserId}, Username {Username}, Email {Email}, Password {Password}";
+        return $"UserId: {UserId}, Username: {Username}, Email: {Email}, Password: {Password}";
     }
 }

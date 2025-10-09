@@ -36,3 +36,26 @@ Database - local sqlite3 database
 
 [https://dbdiagram.io/d/github-67dfeaaf75d75cc8441f8ce5]
 
+# CVIKO 3
+- Data layer implmenetation
+
+GlobalConfig --> IDataConnector
+
+IDataConnector  <|-- SQLConnector
+                <|-- TextConnector
+
+IItemDao <|-- ItemSqlDao
+         <|-- ItemTextDao
+
+IDataConnector uses IItemDAO and ICustomerDAO
+
+Implemented Connector creates DAOs
+    - TextConnector creates ItemTextDAO
+    - SqlConnector creates ItemSqlDAO
+
+- global config can switch databases by changing one line
+
+Factory - Create<IDataConnector, SqlDataConnector>(), Create<IDataConnector, TextDataConnector>()
+Facade - hide under a common interface and working only with that interface, not the concrete implementation
+Strategy - depending on the IDataConnector implementation, it instantiates different IItemDao and ICustomerDao
+Table Data Gateway - DAOs are Table Data Gateways 

@@ -5,12 +5,24 @@ using static MiniGitHub.Data.Extensions.DbCommandExtensions;
 
 namespace MiniGitHub.Data.DataAccessObjects;
 
-public class UserDao {
-    public UserDao() {
+public class UserSqlDao : IUserDao {
+    public UserSqlDao(string connectionString) {
+        _connectionString = connectionString;
+    }
+
+    public List<UserRow> GetAll() {
+        List<UserRow> rows = new();
+        using (SqlDatabaseCall db = new SqlDatabaseCall(_connectionString)) {
+            var r = db.ExecuteReader(@"SELECT * FROM z_user", new());
+            while (r.Read()) {
+                rows.Add(new UserRow(r)); 
+            }
+        }
+        return rows;
     }
 
     public UserRow? GetById(int userId) {
-        using (Database db = new Database()) {
+        using (SqlDatabaseCall db = new SqlDatabaseCall(_connectionString)) {
             DbDataReader r = db.ExecuteReader(
                 @"SELECT * FROM z_user WHERE user_id = @user_id", 
                 new Dictionary<string, object> {
@@ -27,7 +39,7 @@ public class UserDao {
     }
 
     public UserRow? GetByEmail(string email) {
-        using (Database db = new Database()) {
+        using (SqlDatabaseCall db = new SqlDatabaseCall(_connectionString)) {
             DbDataReader r = db.ExecuteReader(
                 @"SELECT * FROM z_user WHERE email = @email", 
                 new Dictionary<string, object> {
@@ -43,7 +55,7 @@ public class UserDao {
     }
 
     public UserRow GetByUsername(string username) {
-        using (Database db = new Database()) {
+        using (SqlDatabaseCall db = new SqlDatabaseCall(_connectionString)) {
             DbDataReader r = db.ExecuteReader(
                 @"SELECT * FROM z_user WHERE username = @username", 
                 new Dictionary<string, object> {
@@ -59,7 +71,7 @@ public class UserDao {
     }
 
     public UserRow Insert(UserRow row) {
-        using (Database db = new Database()) {
+        using (SqlDatabaseCall db = new SqlDatabaseCall(_connectionString)) {
             var r = db.ExecuteScalar(
                 @"INSERT INTO z_user(username, email, password) 
                       VALUES (@username, @email, @password) 
@@ -81,7 +93,7 @@ public class UserDao {
     }
 
     public UserRow Update(UserRow row) {
-        using (Database db = new Database()) {
+        using (SqlDatabaseCall db = new SqlDatabaseCall(_connectionString)) {
             var r = db.ExecuteScalar(
                     @"UPDATE z_user 
                       SET username = @username, email = @email, password = @password 
@@ -102,7 +114,7 @@ public class UserDao {
     }
 
     public bool Delete(int userId) {
-        using (Database db = new Database()) {
+        using (SqlDatabaseCall db = new SqlDatabaseCall(_connectionString)) {
             string sql = @"DELETE z_user WHERE user_id = @user_id";
             Dictionary<string, object> ps = new Dictionary<string, object>() {
                 {"@user_id", userId},
@@ -113,4 +125,6 @@ public class UserDao {
         }
         return false;
     }
+
+    private readonly string _connectionString;
 }

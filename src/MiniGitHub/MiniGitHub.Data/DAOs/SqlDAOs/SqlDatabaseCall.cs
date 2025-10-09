@@ -1,14 +1,15 @@
 using System.Data;
 using System.Data.Common;
+using Microsoft.Data.Sqlite;
 using MiniGitHub.Data.Extensions;
 
 namespace MiniGitHub.Data;
 
-public class Database : IDisposable {
+public class SqlDatabaseCall : IDisposable {
     private readonly DbConnection _connection;
     
-    public Database() {
-        _connection = DBConnector.CreateConnection();
+    public SqlDatabaseCall(string connectionString) {
+        _connection = new SqliteConnection(connectionString);
         _connection.Open();
     }
 

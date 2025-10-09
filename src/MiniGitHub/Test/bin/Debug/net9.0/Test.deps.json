@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v9.0": {
       "Test/1.0.0": {
         "dependencies": {
-          "MiniGitHub.Data": "1.0.0"
+          "MiniGitHub.Data": "1.0.0",
+          "MiniGitHub.Domain": "1.0.0"
         },
         "runtime": {
           "Test.dll": {}
@@ -607,6 +608,17 @@
             "fileVersion": "1.0.0.0"
           }
         }
+      },
+      "MiniGitHub.Domain/1.0.0": {
+        "dependencies": {
+          "MiniGitHub.Data": "1.0.0"
+        },
+        "runtime": {
+          "MiniGitHub.Domain.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -897,6 +909,11 @@
       "hashPath": "system.text.json.9.0.5.nupkg.sha512"
     },
     "MiniGitHub.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MiniGitHub.Domain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

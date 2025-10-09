@@ -828,6 +828,19 @@
         "runtime": {
           "bin/placeholder/MiniGitHub.Data.dll": {}
         }
+      },
+      "MiniGitHub.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "MiniGitHub.Data": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MiniGitHub.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MiniGitHub.Domain.dll": {}
+        }
       }
     }
   },
@@ -1970,11 +1983,17 @@
       "type": "project",
       "path": "../MiniGitHub.Data/MiniGitHub.Data.csproj",
       "msbuildProject": "../MiniGitHub.Data/MiniGitHub.Data.csproj"
+    },
+    "MiniGitHub.Domain/1.0.0": {
+      "type": "project",
+      "path": "../MiniGitHub.Domain/MiniGitHub.Domain.csproj",
+      "msbuildProject": "../MiniGitHub.Domain/MiniGitHub.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "MiniGitHub.Data >= 1.0.0"
+      "MiniGitHub.Data >= 1.0.0",
+      "MiniGitHub.Domain >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -2005,6 +2024,9 @@
           "projectReferences": {
             "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Data/MiniGitHub.Data.csproj": {
               "projectPath": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Data/MiniGitHub.Data.csproj"
+            },
+            "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Domain/MiniGitHub.Domain.csproj": {
+              "projectPath": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Domain/MiniGitHub.Domain.csproj"
             }
           }
         }

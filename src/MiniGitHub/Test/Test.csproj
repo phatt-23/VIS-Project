@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\MiniGitHub.Data\MiniGitHub.Data.csproj" />
+      <ProjectReference Include="..\MiniGitHub.Domain\MiniGitHub.Domain.csproj" />
     </ItemGroup>
 
 </Project>

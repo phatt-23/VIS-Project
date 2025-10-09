@@ -8,7 +8,7 @@ public class UserMapper {
     public UserMapper() {
     }
 
-    public User MapUser(UserRow row) {
+    public User MapUserRow(UserRow row) {
         return new User(row.UserId, row.Username, row.Email);
     }
 }

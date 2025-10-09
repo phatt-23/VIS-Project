@@ -1,0 +1,16 @@
+@using MiniGitHub.Domain.Entities
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+
+<ul>
+@foreach (User user in (List<User>)ViewData["Users"]) {
+    <li>
+        <p>@user.Email</p>
+        <p>@user.Username</p>
+    </li>
+}
+</ul>
