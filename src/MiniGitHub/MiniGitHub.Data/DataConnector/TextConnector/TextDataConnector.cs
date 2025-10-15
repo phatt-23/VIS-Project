@@ -1,19 +1,26 @@
 using MiniGitHub.Data.DataAccessObjects;
+using MiniGitHub.Data.DataAccessObjects.TextDAOs;
 
 namespace MiniGitHub.Data.DataConnector;
 
 public class TextDataConnector : IDataConnector {
-    public TextDataConnector(string textFilePath) {
-        _textFilePath = textFilePath;
+    public TextDataConnector(string directoryPath) {
+        _userTextFile = "user.txt";
+        _repositoryTextFile = "repository.txt";
+        _directoryPath = directoryPath;
     }
 
     public IUserDao CreateUserDao() {
-        throw new NotImplementedException();
+        string path = _directoryPath + _userTextFile;
+        return new UserTextDao(path);
     }
 
     public IRepositoryDao CreateRepositoryDao() {
-        throw new NotImplementedException();
+        string path = _directoryPath + _repositoryTextFile;
+        return new RepositoryTextDao(path);
     }
 
-    private readonly string _textFilePath;
+    private readonly string _directoryPath;
+    private readonly string _userTextFile;
+    private readonly string _repositoryTextFile;
 }

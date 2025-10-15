@@ -11,6 +11,24 @@ public class RepositoryRow {
     public bool IsPublic {get;set;}
     public DateTime CreatedAt {get;set;}
 
+    public RepositoryRow() {
+        // need this for deserealization, and optional list initializing of the object
+    }
+    
+    public RepositoryRow(
+        int ownerId,
+        string name,
+        string description,
+        bool isPublic,
+        DateTime createdAt) {
+        
+        OwnerId = ownerId;
+        Name = name;
+        Description = description;
+        IsPublic = isPublic;
+        CreatedAt = createdAt;
+    }
+
     public RepositoryRow(DbDataReader reader) {
         RepositoryId = reader.Get<int>("repository_id");
         OwnerId = reader.Get<int>("owner_id");
@@ -21,6 +39,6 @@ public class RepositoryRow {
     }
 
     public override string ToString() {
-        return $"RepositoryId {RepositoryId}, OwnerId {OwnerId}, Name {Name}, Description {Description}, IsPublic {IsPublic}, CreatedAt {CreatedAt}";
+        return $"RepositoryId: {RepositoryId}, OwnerId: {OwnerId}, Name: {Name}, Description: {Description}, IsPublic: {IsPublic}, CreatedAt: {CreatedAt}";
     }
 }
