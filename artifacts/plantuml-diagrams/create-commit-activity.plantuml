@@ -1,0 +1,16 @@
+@startuml
+start
+:Uživatel vybere změněné soubory;
+:Zadá commit message;
+:Klikne na "Commit";
+if (Má oprávnění k zápisu?) then (Ano)
+    :Systém vytvoří nový commit objekt;
+    :Propojí commit s předchozím;
+    :Aktualizuje historii větve;
+    :Uloží commit do databáze;
+    :Zobrazí potvrzení o úspěšném commitu;
+else (Ne)
+    :Zobrazení chyby "Access denied";
+endif
+stop
+@enduml

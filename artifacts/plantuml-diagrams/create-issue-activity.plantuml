@@ -1,0 +1,17 @@
+@startuml
+start
+:Otevření stránky repozitáře;
+:Kliknutí na "New Issue";
+:Zobrazení formuláře pro issue;
+:Uživatel vyplní název, popis, štítky a assignee;
+:Kliknutí na "Create Issue";
+if (Jsou vstupy platné?) then (Ano)
+    :Systém uloží issue do databáze;
+    :Nastaví stav na "Open";
+    :Zobrazí stránku s novým issue;
+else (Ne)
+    :Zobrazení chybové zprávy;
+    :Uživatel může opravit vstupy;
+endif
+stop
+@enduml

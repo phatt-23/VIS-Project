@@ -1,0 +1,15 @@
+@startuml
+start
+:Kliknutí na "Nový repozitář";
+:Zobrazení formuláře pro vytvoření repozitáře;
+:Uživatel zadá název, popis a viditelnost;
+if (Je název platný?) then (Ano)
+    :Systém vytvoří repozitář;
+    :Inicializace větve "main";
+    :Uložení do databáze;
+    :Zobrazení stránky repozitáře;
+else (Ne)
+    :Zobrazení chyby "Neplatný název";
+endif
+stop
+@enduml

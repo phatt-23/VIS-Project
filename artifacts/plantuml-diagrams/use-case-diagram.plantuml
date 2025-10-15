@@ -1,0 +1,70 @@
+@startuml
+title Use Case Diagram – MiniGitHub
+
+left to right direction
+top to bottom direction
+
+actor "Návštěvník" as Visitor
+actor "Uživatel" as User
+actor "Administrátor" as Admin
+
+rectangle "MiniGitHub" {
+    (Prohlížení veřejných repozitářů) as UC1
+    (Prohlížení profilů uživatelů) as UC2
+    (Registrace) as UC3
+    (Přihlášení) as UC4
+    (Odhlášení) as UC5
+    (Správa profilu) as UC6
+    (Vytvoření repozitáře) as UC7
+    (Commit změn) as UC8
+    (Vytvoření pull requestu) as UC9
+    (Vytvoření issue) as UC10
+    (Komentování issue / PR) as UC11
+    (Odstranění repozitáře) as UC12
+    (Správa uživatelů) as UC13
+    (Audit systému) as UC14
+}
+
+' Relationships
+Visitor --> UC1
+Visitor --> UC2
+Visitor --> UC3
+
+User --> UC4
+User --> UC5
+User --> UC6
+User --> UC7
+User --> UC8
+User --> UC9
+User --> UC10
+User --> UC11
+
+Admin --> UC13
+Admin --> UC12
+Admin --> UC14
+
+' Include relationships
+
+' Pull request requires commits
+UC9 ..> UC8 : <<include>>  
+' Must be logged in to create repo
+UC7 ..> UC4 : <<include>>  
+' Must be logged in to commit
+UC8 ..> UC4 : <<include>>
+' Must be logged in to create issue
+UC10 ..> UC4 : <<include>> 
+' Must be logged in to comment
+UC11 ..> UC4 : <<include>> 
+
+' Extend relationships
+' After registration, can log in
+UC3 ..> UC4 : <<extend>>   
+' Login allows profile management
+UC4 ..> UC6 : <<extend>>   
+' Delete repository extends create (admin action)
+UC12 ..> UC7 : <<extend>>  
+' Audit extends user management
+UC14 ..> UC13 : <<extend>> 
+
+
+@enduml
