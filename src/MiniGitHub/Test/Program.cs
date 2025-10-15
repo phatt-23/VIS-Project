@@ -6,7 +6,7 @@ namespace Test;
 
 internal abstract class Program
 {
-    private static void Main(string[] args) { 
+    private static void Main() { 
 #if false 
         GlobalConfig.SetDataSource(DataConnectorDataSource.Sqlite);
         IUserDao userDao = GlobalConfig.GetDataConnector().CreateUserDao();

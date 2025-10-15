@@ -86,15 +86,17 @@ IItemDao <|-- ItemSqlDao
          <|-- ItemTextDao
 ```
 
-IDataConnector uses IItemDAO and ICustomerDAO
+- IDataConnector uses IItemDAO and ICustomerDAO
 
-Implemented Connector creates DAOs
+- Implemented Connector creates DAOs
     - TextConnector creates ItemTextDAO
     - SqlConnector creates ItemSqlDAO
 
-- global config can switch databases by changing one line
+- with global config we can switch databases by changing one line
 
-Factory - Create<IDataConnector, SqlDataConnector>(), Create<IDataConnector, TextDataConnector>()
-Facade - hide under a common interface and working only with that interface, not the concrete implementation
-Strategy - depending on the IDataConnector implementation, it instantiates different IItemDao and ICustomerDao
-Table Data Gateway - DAOs are Table Data Gateways 
+## Patterns used 
+
+- Factory - Create<IDataConnector, SqlDataConnector>(), Create<IDataConnector, TextDataConnector>()
+- Facade - hide under a common interface and working only with that interface, not the concrete implementation
+- Strategy - depending on the IDataConnector implementation, it instantiates different IItemDao and ICustomerDao
+- Table Data Gateway - DAOs are Table Data Gateways 
