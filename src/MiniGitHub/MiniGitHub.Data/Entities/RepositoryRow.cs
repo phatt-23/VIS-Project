@@ -4,8 +4,8 @@ using MiniGitHub.Data.Extensions;
 namespace MiniGitHub.Data.Rows;
 
 public class RepositoryRow {
-    public int RepositoryId {get;set;}
-    public int OwnerId {get;set;}
+    public long RepositoryId {get;set;}
+    public long OwnerId {get;set;}
     public string Name {get;set;}
     public string Description {get;set;}
     public bool IsPublic {get;set;}
@@ -16,11 +16,12 @@ public class RepositoryRow {
     }
     
     public RepositoryRow(
-        int ownerId,
+        long ownerId,
         string name,
         string description,
         bool isPublic,
-        DateTime createdAt) {
+        DateTime createdAt
+    ) {
         
         OwnerId = ownerId;
         Name = name;
@@ -30,8 +31,8 @@ public class RepositoryRow {
     }
 
     public RepositoryRow(DbDataReader reader) {
-        RepositoryId = reader.Get<int>("repository_id");
-        OwnerId = reader.Get<int>("owner_id");
+        RepositoryId = reader.Get<long>("repository_id");
+        OwnerId = reader.Get<long>("owner_id");
         Name = reader.Get<string>("name");
         Description = reader.Get<string>("description");
         IsPublic = reader.Get<bool>("is_public");

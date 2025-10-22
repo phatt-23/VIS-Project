@@ -1,14 +1,14 @@
-using System.Data;
 using MiniGitHub.Data.Rows;
 using MiniGitHub.Domain.Entities;
 
-namespace MiniGitHub.Domain.DataMappers;
+namespace MiniGitHub.Domain.Mappers;
 
-public class UserMapper {
-    public UserMapper() {
+public class UserMapper : IMapper<UserRow, User> {
+    public User MapFromRow(UserRow row) {
+        return new User(row.UserId, row.Username, row.Email, row.Password);
     }
 
-    public User MapUserRow(UserRow row) {
-        return new User(row.UserId, row.Username, row.Email);
+    public UserRow MapToRow(User user) {
+        return new UserRow(user.UserId, user.Username, user.Email, user.Password);
     }
 }

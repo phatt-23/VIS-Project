@@ -6,7 +6,7 @@ public enum IssueStatus {
 }
 
 public class IssueRow {
-    public int IssueId { get; set; }
+    public long IssueId { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
     public DateTime CreatedAt { get; set; }

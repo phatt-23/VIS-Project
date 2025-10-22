@@ -1,30 +1,35 @@
 using Microsoft.AspNetCore.Mvc;
 using MiniGitHub.Domain.Entities;
+using MiniGitHub.Domain.Mappers;
 using MiniGitHub.Domain.Repositories;
+using MiniGitHub.Domain.Services.TransactionScriptPattern;
 
 namespace MiniGitHub.Web.Controllers;
 
-public class UserController : Controller{
-    public UserController(UserRepository userRepository) {
-        _userRepository = userRepository;
-    }
-        
+public class UserController(
+    IUserRepository userRepository, 
+    UserMapper userMapper,
+    RepositoryMapper repositoryMapper,
+    GetUserWithRepositoriesTS getUserWithRepositoriesTs
+) : Controller
+{
     [HttpGet]
     public IActionResult Index() {
-        ViewData["Users"] = _userRepository.GetAllUsers();
+        ViewData["Users"] = userRepository.GetAllUsers();
         return View();
     }
 
-    [HttpGet]
-    public IActionResult Details(int id) {
-        User? user = _userRepository.GetUserWithRepositories(id);
+    public IActionResult Detail(long id) {
+        // User? user = userRepository.GetUserWithRepositories(id);
+        
+        
+        User? user = getUserWithRepositoriesTs.Run(id);
+        
         if (user == null) {
-            return NotFound();
+            return NotFound("User not found");
         }
 
         ViewData["User"] = user;
         return View();
     }
-
-    private readonly UserRepository _userRepository;
 }

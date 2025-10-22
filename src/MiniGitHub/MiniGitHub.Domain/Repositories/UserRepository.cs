@@ -1,26 +1,28 @@
 using MiniGitHub.Data;
+using MiniGitHub.Data.DAOs;
 using MiniGitHub.Data.DataAccessObjects;
+using MiniGitHub.Data.DataConnector;
 using MiniGitHub.Data.Rows;
-using MiniGitHub.Domain.DataMappers;
 using MiniGitHub.Domain.Entities;
+using MiniGitHub.Domain.Mappers;
 
 namespace MiniGitHub.Domain.Repositories;
 
 public class UserRepository : IUserRepository {
-    public UserRepository() {
-        _userDao = GlobalConfig.GetDataConnector().CreateUserDao();
-        _repoDao = GlobalConfig.GetDataConnector().CreateRepositoryDao();
+    public UserRepository(IDataConnector connector) {
+        _userDao = connector.CreateUserDao();
+        _repoDao = connector.CreateRepositoryDao();
         _userMapper = new UserMapper();
         _repoMapper = new RepositoryMapper();
     }
         
     public List<User> GetAllUsers() {
         List<UserRow> userRows = _userDao.GetAll();
-        List<User> users = userRows.Select(_userMapper.MapUserRow).ToList();
+        List<User> users = userRows.Select(_userMapper.MapFromRow).ToList();
         return users;
     }
     
-    public User? GetUserWithRepositories(int userId) {
+    public User? GetUserWithRepositories(long userId) {
         UserRow? userRow = _userDao.GetById(userId);
         if (userRow == null) {
             return null;
@@ -28,8 +30,8 @@ public class UserRepository : IUserRepository {
         
         List<RepositoryRow> repoRows = _repoDao.GetByUserId(userId);
 
-        User user = _userMapper.MapUserRow(userRow);
-        user.Repositories = repoRows.Select(r => _repoMapper.MapRepositoryRow(r)).ToList();
+        User user = _userMapper.MapFromRow(userRow);
+        user.Repositories = repoRows.Select(_repoMapper.MapFromRow).ToList();
 
         return user;
     }

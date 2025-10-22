@@ -1,4 +1,5 @@
 using System.Text.Json;
+using MiniGitHub.Data.DAOs;
 using MiniGitHub.Data.Rows;
 
 namespace MiniGitHub.Data.DataAccessObjects.TextDAOs;
@@ -8,7 +9,7 @@ public class RepositoryTextDao : IRepositoryDao {
         _path = path;
     }
 
-    public RepositoryRow? GetById(int repoId) {
+    public RepositoryRow? GetById(long repoId) {
         var repos = GetAll().Where(r => r.RepositoryId == repoId).ToList();
         if (!repos.Any()) {
             return null;
@@ -17,7 +18,7 @@ public class RepositoryTextDao : IRepositoryDao {
         return repos.Single();
     }
 
-    public List<RepositoryRow> GetByUserId(int userId) {
+    public List<RepositoryRow> GetByUserId(long userId) {
         var repos = GetAll().Where(r => r.OwnerId == userId).ToList();
         return repos;
     }
@@ -41,6 +42,22 @@ public class RepositoryTextDao : IRepositoryDao {
         string serialized = JsonSerializer.Serialize(repos);
         File.WriteAllText(_path, serialized);
         return row; 
+    }
+
+    public bool Delete(long repoId) {
+        var repos = GetAll();
+        
+        var repo = repos.SingleOrDefault(r => r.RepositoryId == repoId);
+        if (repo == null) {
+            return false;
+        }
+
+        repos.Remove(repo);
+        
+        string serialized = JsonSerializer.Serialize(repos);
+        File.WriteAllText(_path, serialized);
+
+        return true;
     }
 
     private readonly string _path;

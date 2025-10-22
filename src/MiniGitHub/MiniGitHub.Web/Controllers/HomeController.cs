@@ -5,11 +5,10 @@ using MiniGitHub.Web.Models;
 
 namespace MiniGitHub.Web.Controllers;
 
-public class HomeController : Controller {
-    public HomeController(ILogger<HomeController> logger, RepositoryRepository repositoryRepository) {
-        _logger = logger;
-        _repositoryRepository = repositoryRepository;
-    }
+public class HomeController(
+    ILogger<HomeController> logger, 
+    IRepositoryRepository repositoryRepository   
+) : Controller {
 
     public IActionResult Index() {
         ViewData["Message"] = "Welcome to MiniGitub!";
@@ -24,7 +23,4 @@ public class HomeController : Controller {
     public IActionResult Error() {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-    
-    private readonly ILogger<HomeController> _logger;
-    private readonly RepositoryRepository _repositoryRepository;
 }

@@ -4,16 +4,22 @@ using MiniGitHub.Data.Extensions;
 namespace MiniGitHub.Data.Rows;
 
 public class UserRow {
-    public int UserId { get; set; }
+    public long UserId { get; set; }
     public string Username { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
 
     public UserRow() {
     }
+    
+    public UserRow(long userId, string username, string email, string password) { UserId = userId;
+        Username = username;
+        Email = email;
+        Password = password;
+    }
 
     public UserRow(DbDataReader reader) {
-        UserId = reader.Get<int>("user_id"); 
+        UserId = reader.Get<long>("user_id"); 
         Username = reader.Get<string>("username");
         Email = reader.Get<string>("email");
         Password = reader.Get<string>("password");

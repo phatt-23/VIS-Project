@@ -1,4 +1,5 @@
 using System.Text.Json;
+using MiniGitHub.Data.DAOs;
 using MiniGitHub.Data.Rows;
 
 namespace MiniGitHub.Data.DataAccessObjects.TextDAOs;
@@ -8,7 +9,7 @@ public class UserTextDao : IUserDao {
         _path = path;
     }
 
-    public UserRow? GetById(int userId) {
+    public UserRow? GetById(long userId) {
         var users = GetAll().Where(u => u.UserId == userId).ToList();
         if (!users.Any()) {
             return null;
@@ -53,9 +54,25 @@ public class UserTextDao : IUserDao {
         return row;
     }
 
-    public UserRow Update(UserRow row) => throw new NotImplementedException();
+    public UserRow Update(UserRow row) {
+        throw new NotImplementedException();
+    }
 
-    public bool Delete(int userId) => throw new NotImplementedException();
+    public bool Delete(long userId) {
+        var users = GetAll();
+
+        UserRow? user = users.SingleOrDefault(user => user.UserId == userId);
+        if (user is null) {
+            return false;
+        }
+
+        users.Remove(user);
+        
+        string serialized = JsonSerializer.Serialize(users);
+        File.WriteAllText(_path, serialized);
+
+        return true;
+    }
 
     private readonly string _path;
 }

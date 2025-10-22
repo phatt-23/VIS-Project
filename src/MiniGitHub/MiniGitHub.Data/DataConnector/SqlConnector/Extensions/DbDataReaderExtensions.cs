@@ -8,6 +8,8 @@ public static class DbDataReaderExtensions {
         Type t = typeof(T);
         if (t == typeof(int))
             return (T)(object)r.GetInt32(ord);
+        if (t == typeof(long))
+            return (T)(object)r.GetInt64(ord);
         if (t == typeof(string))
             return (T)(object)r.GetString(ord);
         if (t == typeof(DateTime))

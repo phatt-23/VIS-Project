@@ -4,5 +4,5 @@ namespace MiniGitHub.Domain.Repositories;
 
 public interface IUserRepository {
     List<User> GetAllUsers();
-    User? GetUserWithRepositories(int userId);
+    User? GetUserWithRepositories(long userId);
 }

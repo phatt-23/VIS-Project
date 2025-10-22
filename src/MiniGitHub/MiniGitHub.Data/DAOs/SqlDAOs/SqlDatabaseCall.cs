@@ -5,16 +5,9 @@ using MiniGitHub.Data.Extensions;
 
 namespace MiniGitHub.Data;
 
-public class SqlDatabaseCall : IDisposable {
-    private readonly DbConnection _connection;
-    
-    public SqlDatabaseCall(string connectionString) {
-        _connection = new SqliteConnection(connectionString);
-        _connection.Open();
-    }
-
-    public void Dispose() {
-        _connection.Dispose();
+public class SqlDatabaseCall {
+    public SqlDatabaseCall(DbConnection connection) {
+        _connection = connection;
     }
 
     // Access to results.
@@ -50,5 +43,5 @@ public class SqlDatabaseCall : IDisposable {
         return command.ExecuteScalar();
     }
         
-
+    private readonly DbConnection _connection;
 }

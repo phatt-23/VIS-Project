@@ -1,0 +1,19 @@
+@using MiniGitHub.Domain.Entities
+@{
+    Layout = "_Layout";
+    User user = (User)ViewData["User"];
+}
+
+<h1>@user.Username</h1>
+
+<p>@user.UserId</p>
+
+<h3>Repositories</h3>
+
+@foreach (Repository repo in user.Repositories) {
+    <li>
+        <p>@repo.RepositoryId</p>
+        <p>@repo.Name</p>
+        <p>@repo.Description</p>
+    </li>
+}

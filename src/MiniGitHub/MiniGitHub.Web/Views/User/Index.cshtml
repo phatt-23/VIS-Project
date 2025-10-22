@@ -9,6 +9,7 @@
 <ul>
 @foreach (User user in (List<User>)ViewData["Users"]) {
     <li>
+        <p>@user.UserId</p>
         <p>@user.Email</p>
         <p>@user.Username</p>
     </li>

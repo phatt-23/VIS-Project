@@ -10,8 +10,4 @@
       <ProjectReference Include="..\MiniGitHub.Data\MiniGitHub.Data.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Services\" />
-    </ItemGroup>
-
 </Project>

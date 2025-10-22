@@ -1,13 +1,13 @@
 using MiniGitHub.Data.Rows;
 
-namespace MiniGitHub.Data.DataAccessObjects;
+namespace MiniGitHub.Data.DAOs;
 
 public interface IUserDao {
-    UserRow? GetById(int userId);
+    UserRow? GetById(long userId);
     List<UserRow> GetAll();
     UserRow? GetByEmail(string email);
     UserRow GetByUsername(string username);
     UserRow Insert(UserRow row);
     UserRow Update(UserRow row);
-    bool Delete(int userId);
+    bool Delete(long userId);
 }
