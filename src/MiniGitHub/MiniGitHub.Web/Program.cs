@@ -20,6 +20,9 @@ builder.Services.AddScoped<IDataConnector, SqlDataConnector>();
 // repositories
 builder.Services.AddScoped<IRepositoryRepository, RepositoryRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICommitRepository, CommitRepository>();
+builder.Services.AddScoped<IFileRepository, FileRepository>();
+
 
 // transaction scripts
 builder.Services.AddScoped<GetUserWithRepositoriesTS>();

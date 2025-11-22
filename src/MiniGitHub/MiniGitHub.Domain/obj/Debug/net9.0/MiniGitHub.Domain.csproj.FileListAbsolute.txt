@@ -14,3 +14,4 @@
 /home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Domain/obj/Debug/net9.0/refint/MiniGitHub.Domain.dll
 /home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Domain/obj/Debug/net9.0/MiniGitHub.Domain.pdb
 /home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Domain/obj/Debug/net9.0/ref/MiniGitHub.Domain.dll
+/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Domain/bin/Debug/net9.0/MiniGitHub.Data.dll.config

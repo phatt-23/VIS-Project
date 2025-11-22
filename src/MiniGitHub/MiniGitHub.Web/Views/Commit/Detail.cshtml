@@ -1,0 +1,22 @@
+@model MiniGitHub.Domain.Entities.Commit
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Commit</h2>
+
+<p>commitId: @Model.CommitId</p>
+<p>repoId: @Model.RepositoryId</p>
+<p>message: @Model.Message</p>
+
+<h4>Files</h4>
+<ul>
+@foreach (var file in Model.Files) {
+    <li>
+        <p>Path: @file.Path</p>
+        <p>Content: @file.Content</p>
+    </li>
+}
+</ul>

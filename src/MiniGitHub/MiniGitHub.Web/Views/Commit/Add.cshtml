@@ -1,0 +1,62 @@
+@model MiniGitHub.Web.Models.AddCommitDTO
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Add Commit</h2>
+
+@using (Html.BeginForm(actionName: "Add", controllerName: "Commit")) {
+    <div>
+        <label asp-for="Message">Message</label> 
+        <input asp-for="Message" type="text"/>
+        <span asp-validation-for="Message"></span>
+    </div>
+    
+    <input asp-for="RepositoryId" type="hidden"/>
+    
+    
+    // adding files 
+   
+    <h3>Files</h3>
+
+    <div id="files-container">
+        @for (int i = 0; i < Model.Files.Count; i++)
+        {
+            <div class="file-item">
+                <label>Path</label>
+                <input name="Files[@i].Path" value="@Model.Files[i].Path" />
+
+                <label>Content</label>
+                <textarea name="Files[@i].Content">@Model.Files[i].Content</textarea>
+            </div>
+        }
+    </div>
+
+    <button type="button" id="add-file">Add another file</button> 
+    
+    
+    <button type="submit">Add</button>
+}
+
+
+@section Scripts {
+<script>
+    document.getElementById("add-file").addEventListener("click", function () {
+        const container = document.getElementById("files-container");
+        const index = container.children.length;
+
+        const div = document.createElement("div");
+        div.classList.add("file-item");
+        div.innerHTML = `
+            <label>Path</label>
+            <input name="Files[${index}].Path" />
+
+            <label>Content</label>
+            <textarea name="Files[${index}].Content"></textarea>
+        `;
+        container.appendChild(div);
+    });
+</script>
+}

@@ -1,5 +1,7 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Protocols;
 using MiniGitHub.Data.DataConnector;
 
 namespace MiniGitHub.Data;

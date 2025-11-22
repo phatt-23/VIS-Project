@@ -1,19 +1,25 @@
 @using MiniGitHub.Domain.Entities
 @{
     Layout = "_Layout";
-    User user = (User)ViewData["User"];
+    User user = (User)ViewData["User"]!;
 }
 
-<h1>@user.Username</h1>
+<h1>User Detail</h1>
 
-<p>@user.UserId</p>
+<p>UserID: @user.UserId</p>
+<p>Username: @user.Username</p>
 
 <h3>Repositories</h3>
 
+<a asp-controller="Repo" asp-action="Add" asp-route-ownerId="@user.UserId">Add repository</a>
+
 @foreach (Repository repo in user.Repositories) {
     <li>
-        <p>@repo.RepositoryId</p>
-        <p>@repo.Name</p>
-        <p>@repo.Description</p>
+        <div>
+            <p>RepositoryID: @repo.RepositoryId</p>
+            <p>Name: @repo.Name</p>
+            <p>Description: @repo.Description</p>
+            <a asp-controller="Repo" asp-action="Detail" asp-route-id="@repo.RepositoryId">Detail</a>
+        </div>
     </li>
 }

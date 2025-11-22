@@ -1,0 +1,27 @@
+@model AddUserDTO
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Add User</h2>
+
+@using (Html.BeginForm(actionName: "Add", controllerName: "User")) {
+    <div>
+        <label asp-for="Username">Username</label> 
+        <input asp-for="Username" type="text" value=""/>
+        <span asp-validation-for="Username"></span>
+    </div>
+    <div>
+        <label asp-for="Email">Email</label> 
+        <input asp-for="Email" type="text" value=""/>
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label asp-for="Password">Password</label> 
+        <input asp-for="Password" type="text" value=""/>
+        <span asp-validation-for="Password"></span>
+    </div>
+    <button type="submit">Add</button>
+}

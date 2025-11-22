@@ -7,7 +7,7 @@ public class Repository {
     public string Description {get;set;}
     public bool IsPublic {get;set;}
     public DateTime CreatedAt {get;set;}
-    private List<Commit> Commits {get;set;} = new List<Commit>();
+    public List<Commit> Commits {get;set;} = new List<Commit>();
 
     public Repository() {
     }

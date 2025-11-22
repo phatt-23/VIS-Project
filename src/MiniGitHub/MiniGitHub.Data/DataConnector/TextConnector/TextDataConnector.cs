@@ -21,6 +21,14 @@ public class TextDataConnector : IDataConnector {
         return new RepositoryTextDao(path);
     }
 
+    public ICommitDao CreateCommitDao() {
+        throw new NotImplementedException();
+    }
+
+    public IFileDao CreateFileDao() {
+        throw new NotImplementedException(); 
+    }
+
     private readonly string _directoryPath;
     private readonly string _userTextFile;
     private readonly string _repositoryTextFile;

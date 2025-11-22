@@ -4,14 +4,19 @@
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<h2>Users</h2>
+
+<a asp-action="Add">Add</a>
 
 <ul>
 @foreach (User user in (List<User>)ViewData["Users"]) {
     <li>
-        <p>@user.UserId</p>
-        <p>@user.Email</p>
-        <p>@user.Username</p>
+        <div>
+            <p>UserID: @user.UserId</p>
+            <p>Email: @user.Email</p>
+            <p>Username: @user.Username</p>
+            <a asp-action="Detail" asp-route-id="@user.UserId">Detail</a>
+        </div>
     </li>
 }
 </ul>

@@ -35,7 +35,13 @@ public class UserRepository : IUserRepository {
 
         return user;
     }
-    
+
+    public User AddUser(User user) {
+        UserRow row = _userMapper.MapToRow(user);
+        row = _userDao.Insert(row);
+        return _userMapper.MapFromRow(row);
+    }
+
     private readonly IUserDao _userDao;
     private readonly IRepositoryDao _repoDao;
     private readonly UserMapper _userMapper;

@@ -32,5 +32,13 @@ public class SqlDataConnector : IDataConnector, IDisposable {
         return new RepositorySqlDao(_connection);
     }
 
+    public ICommitDao CreateCommitDao() {
+        return new CommitSqlDao(_connection);
+    }
+
+    public IFileDao CreateFileDao() {
+        return new FileSqlDao(_connection);
+    }
+
     private readonly SqliteConnection _connection;
 }

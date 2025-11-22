@@ -1,0 +1,37 @@
+@model AddRepositoryDTO
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Repository Add</h2>
+
+@* public long OwnerId; *@
+@* public string Name; *@
+@* public string Description; *@
+@* public bool IsPublic; *@
+
+<p>Adding a repository for user with userID: @Model.OwnerId</p>
+
+@using (Html.BeginForm(actionName: "Add", controllerName: "Repo")) {
+    <div>
+        <label asp-for="Name">Name</label> 
+        <input asp-for="Name" type="text"/>
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div>
+        <label asp-for="Description">Description</label> 
+        <input asp-for="Description" type="text"/>
+        <span asp-validation-for="Description"></span>
+    </div>
+    <div>
+        <label asp-for="IsPublic">IsPublic</label> 
+        <input asp-for="IsPublic" type="checkbox"/>
+        <span asp-validation-for="IsPublic"></span>
+    </div>
+    
+    <input asp-for="OwnerId" type="hidden" />
+    
+    <button type="submit">Add</button>
+}
