@@ -1,4 +1,5 @@
-﻿using MiniGitHub.Data;
+﻿using Microsoft.Data.SqlClient;
+using MiniGitHub.Data;
 using MiniGitHub.Data.DAOs;
 using MiniGitHub.Data.DataAccessObjects;
 using MiniGitHub.Data.DataConnector;
@@ -255,7 +256,5 @@ internal abstract class Program {
 
         
     }
-
-
 
 }

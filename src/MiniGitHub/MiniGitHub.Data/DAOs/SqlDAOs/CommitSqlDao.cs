@@ -1,4 +1,5 @@
 using System.Data.Common;
+using Microsoft.Data.SqlClient;
 using MiniGitHub.Data.Rows;
 
 namespace MiniGitHub.Data.DAOs.SqlDAOs;

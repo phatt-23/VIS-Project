@@ -1,0 +1,46 @@
+@startuml
+actor Client
+participant "CommitRepository\n(AddCommit)" as Repo
+participant Connector as Conn
+participant CommitDAO as CDAO
+participant CommitMapper as CMap
+participant FileDAO as FDAO
+participant FileMapper as FMap
+
+Client -> Repo: AddCommit(commit, files)
+
+Repo -> Conn: BeginTransaction()
+activate Conn
+
+Repo -> CMap: MapToRow(commit)
+activate CMap
+CMap --> Repo: commitRow
+deactivate CMap
+
+Repo -> CDAO: Insert(commitRow)
+activate CDAO
+CDAO --> Repo: insertedCommitRow
+deactivate CDAO
+
+loop for each file in files
+    Repo -> Repo: file.CommitId = insertedCommitRow.CommitId
+    Repo -> FMap: MapToRow(file)
+    activate FMap
+    FMap --> Repo: fileRow
+    deactivate FMap
+
+    Repo -> FDAO: Insert(fileRow)
+    activate FDAO
+    FDAO --> Repo
+    deactivate FDAO
+end loop
+
+Repo -> Conn: CommitTransaction()
+Conn --> Repo
+deactivate Conn
+
+Repo --> Client: commit (mapped from insertedCommitRow)
+
+deactivate Conn
+@enduml
+

@@ -1,13 +1,16 @@
+using System.Transactions;
+using Microsoft.Data.SqlClient;
 using MiniGitHub.Data.DAOs;
 using MiniGitHub.Data.DataConnector;
 using MiniGitHub.Domain.Entities;
 using MiniGitHub.Domain.Mappers;
+using File = MiniGitHub.Domain.Entities.File;
 
 namespace MiniGitHub.Domain.Repositories;
 
 public class CommitRepository : ICommitRepository {
-        
     public CommitRepository(IDataConnector connector) {
+        _connector = connector;
         _userDao = connector.CreateUserDao();
         _repoDao = connector.CreateRepositoryDao();
         _commitDao = connector.CreateCommitDao();
@@ -39,12 +42,27 @@ public class CommitRepository : ICommitRepository {
         return commit;
     }
 
-    public Commit AddCommit(Commit commit) {
-        var row = _commitMapper.MapToRow(commit);
-        var insertedRow = _commitDao.Insert(row); 
-        return _commitMapper.MapFromRow(insertedRow);
+    public Commit AddCommit(Commit commit, List<File> files) {
+        try {
+            _connector.BeginTransaction();
+
+            var insertedRow = _commitDao.Insert(_commitMapper.MapToRow(commit));
+            foreach (var file in files)
+            {
+                file.CommitId = insertedRow.CommitId;
+                _fileDao.Insert(_fileMapper.MapToRow(file));
+            }
+            
+            _connector.CommitTransaction();
+            return _commitMapper.MapFromRow(insertedRow);
+        }
+        catch (Exception e) {
+            _connector.RollbackTransaction();
+            throw;
+        }
     }
 
+    private IDataConnector _connector;
     private IUserDao _userDao;
     private IRepositoryDao _repoDao;
     private ICommitDao _commitDao;

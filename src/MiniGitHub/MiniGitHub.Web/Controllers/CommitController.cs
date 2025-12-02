@@ -1,5 +1,6 @@
 using System.Data;
 using Microsoft.AspNetCore.Mvc;
+using MiniGitHub.Data.DataConnector;
 using MiniGitHub.Domain.Entities;
 using MiniGitHub.Domain.Repositories;
 using MiniGitHub.Web.Models;
@@ -21,15 +22,18 @@ public class CommitController(
 
     [HttpPost]
     public IActionResult Add(AddCommitDTO dto) {
-        Commit commit = new Commit(-1, dto.RepositoryId, dto.Message, DateTime.Now);
-        commit = commitRepository.AddCommit(commit);
 
-        foreach (var file in dto.Files) {
-            file.CommitId = commit.CommitId;
-            fileRepository.AddFile(file);
+        try {
+            Commit commit = new Commit(-1, dto.RepositoryId, dto.Message, DateTime.Now);
+            var files =  dto.Files.Select(f => { f.CommitId = commit.CommitId; return f; }).ToList();
+            
+            commit = commitRepository.AddCommit(commit, files);
+            return RedirectToAction("Detail", new {id = commit.CommitId});
         }
-
-        return RedirectToAction("Detail", new {id = commit.CommitId});
+        catch {
+            ModelState.AddModelError("Message", "Something went wrong");
+            return RedirectToAction("Add", new {id = dto.RepositoryId}); 
+        }
     }
     
     public IActionResult Detail(long id) {

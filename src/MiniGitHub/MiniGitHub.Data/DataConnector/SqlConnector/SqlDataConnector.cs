@@ -40,5 +40,28 @@ public class SqlDataConnector : IDataConnector, IDisposable {
         return new FileSqlDao(_connection);
     }
 
+    public void BeginTransaction() {
+        _transaction = _connection.BeginTransaction();
+    }
+
+    public void CommitTransaction() {
+        if (_transaction is null) {
+            throw new InvalidOperationException("No transaction started");
+        }
+
+        _transaction.Commit();
+        _transaction = null;
+    }
+
+    public void RollbackTransaction() {
+        if (_transaction is null) {
+            throw new InvalidOperationException("No transaction started");
+        }
+        
+        _transaction.Rollback();
+        _transaction = null;
+    }
+
+    private DbTransaction? _transaction = null;
     private readonly SqliteConnection _connection;
 }

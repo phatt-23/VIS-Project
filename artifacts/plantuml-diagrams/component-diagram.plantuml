@@ -1,0 +1,29 @@
+@startuml
+title System Components
+
+package "Presentation Layer" {
+  [Web UI] as Web
+  [Desktop UI] as Desktop
+}
+
+package "Domain Layer" {
+  [Entities] as Ent
+  [Mappers] as Map
+  [Repositories\n(Services)] as Repo
+}
+
+package "Data Layer" {
+  [Relational Database] as RDB
+  [JSON Storage] as JSON
+}
+
+Web --> Repo
+Desktop --> Repo
+Repo --> Map
+Map --> Ent
+
+Repo --> RDB : store/query
+Repo --> JSON : read/write text
+
+@enduml
+
