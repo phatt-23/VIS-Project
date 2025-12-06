@@ -1,25 +1,65 @@
+@model User
+@using Microsoft.IdentityModel.Tokens
 @using MiniGitHub.Domain.Entities
+@using MiniGitHub.Web.Extensions
 @{
+    ViewBag.Title = Model.Username;
     Layout = "_Layout";
-    User user = (User)ViewData["User"]!;
+    bool isOwner = User.GetUserId() == Model.UserId;
 }
 
-<h1>User Detail</h1>
+<div class="d-flex align-items-center">
+    <h1 class="display-5 mb-0 me-4">@Model.Username</h1>
 
-<p>UserID: @user.UserId</p>
-<p>Username: @user.Username</p>
+    @if (isOwner) {
+        <a asp-action="Edit" class="btn btn-outline-dark">
+            Edit Profile
+        </a>
+    }
+</div>
 
-<h3>Repositories</h3>
 
-<a asp-controller="Repo" asp-action="Add" asp-route-ownerId="@user.UserId">Add repository</a>
+<p>Email: @Model.Email</p>
 
-@foreach (Repository repo in user.Repositories) {
-    <li>
-        <div>
-            <p>RepositoryID: @repo.RepositoryId</p>
-            <p>Name: @repo.Name</p>
-            <p>Description: @repo.Description</p>
-            <a asp-controller="Repo" asp-action="Detail" asp-route-id="@repo.RepositoryId">Detail</a>
-        </div>
-    </li>
-}
+<h2 class="mb-4">
+    <a asp-action="ListForUser" asp-controller="Repository" asp-route-userId="@Model.UserId" class="text-decoration-none">
+        Repositories
+    </a>
+</h2>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    @if (Model.Repositories.IsNullOrEmpty()) {
+        <p class="text-muted">This user has no repositories.</p>
+    }
+    else {
+        @foreach (Repository repo in Model.Repositories.Take(6)) {
+            if (repo.IsPublic || isOwner) {
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="card-title mb-0">
+                                    <a asp-action="Detail" 
+                                       asp-controller="Repository" 
+                                       asp-route-id="@repo.RepositoryId" 
+                                       class="text-decoration-none">
+                                        @repo.Name
+                                    </a>
+                                </h5>
+                                @if (repo.IsPublic) {
+                                    <span class="badge bg-success">Public</span>
+                                }
+                                else {
+                                    <span class="badge bg-secondary">Private</span>
+                                }
+                            </div>
+                            <p class="card-text text-muted">
+                                @repo.Description.OrDefault("No description provided.")
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    }
+</div>

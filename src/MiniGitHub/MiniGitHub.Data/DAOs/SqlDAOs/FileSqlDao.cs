@@ -1,5 +1,6 @@
 using System.Data;
 using System.Data.Common;
+using Microsoft.Data.SqlClient;
 using MiniGitHub.Data.Rows;
 
 namespace MiniGitHub.Data.DAOs.SqlDAOs;
@@ -56,9 +57,54 @@ public class FileSqlDao : IFileDao {
         throw new InvalidOperationException("Unable to insert new file.");
     }
 
-    public FileRow Update(FileRow row) => throw new NotImplementedException();
+    public FileRow? Update(FileRow row) {
+        SqlDatabaseCall call = new SqlDatabaseCall(_connection);
 
-    public bool Delete(long fileId) => throw new NotImplementedException();
+        string sql = @"UPDATE z_file SET path = @path, content = @content WHERE file_id = @file_id;";
+        int nrows = call.ExecuteNonQuery(sql, new Dictionary<string, object>() {
+            {"@file_id", row.FileId}, 
+            {"@path", row.Path}, 
+            {"@content", row.Content}
+        });
+
+        if (nrows > 0) {
+            return row;
+        }
+        
+        throw new InvalidOperationException("Unable to update a file.");
+    }
+
+    public bool Delete(long fileId) {
+        SqlDatabaseCall call = new SqlDatabaseCall(_connection);
+
+        string sql = @"DELETE FROM z_file WHERE file_id = @file_id";
+        int nrows = call.ExecuteNonQuery(sql, new Dictionary<string, object>() {
+            {"@file_id", fileId}, 
+        });
+
+        if (nrows > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public List<FileRow> GetByCommitId(long commitId) {
+        SqlDatabaseCall call = new SqlDatabaseCall(_connection);
+
+        const string sql = @"SELECT * FROM z_file WHERE commit_id = @commit_id";
+        var ps = new Dictionary<string, object>() {
+            {"@commit_id", commitId},
+        };
+        DbDataReader reader = call.ExecuteReader(sql, ps);
+
+        List<FileRow> rows = new List<FileRow>();
+        while (reader.Read()) {
+            rows.Add(new FileRow(reader));
+        }
+
+        return rows;         
+    }
 
     private readonly DbConnection _connection;
 }

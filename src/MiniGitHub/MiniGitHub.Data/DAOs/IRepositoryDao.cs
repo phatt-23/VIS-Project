@@ -7,5 +7,6 @@ public interface IRepositoryDao {
     List<RepositoryRow> GetByUserId(long userId);
     List<RepositoryRow> GetAll();
     RepositoryRow Insert(RepositoryRow repo);
+    RepositoryRow? Update(RepositoryRow repo);
     bool Delete(long repoId);
 }

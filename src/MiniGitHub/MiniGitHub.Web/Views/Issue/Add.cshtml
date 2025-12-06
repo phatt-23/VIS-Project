@@ -1,0 +1,26 @@
+@model IssueAddDTO
+
+@{
+    ViewBag.Title = "Add Issue";
+    Layout = "_Layout";
+}
+
+<h2>Add Issue</h2>
+
+<form asp-action="Add" asp-antiforgery="true">
+    <input type="hidden" asp-for="RepositoryId" />
+
+    <div class="form-group ">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" type="text" class="form-control"/>
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating">
+        <textarea asp-for="Description" rows="3" style="height: 150px" class="form-control"></textarea>
+        <label asp-for="Description" class="form-label"></label>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

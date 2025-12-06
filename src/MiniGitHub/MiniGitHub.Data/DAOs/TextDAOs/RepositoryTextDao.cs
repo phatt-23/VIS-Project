@@ -1,8 +1,7 @@
 using System.Text.Json;
-using MiniGitHub.Data.DAOs;
 using MiniGitHub.Data.Rows;
 
-namespace MiniGitHub.Data.DataAccessObjects.TextDAOs;
+namespace MiniGitHub.Data.DAOs.TextDAOs;
 
 public class RepositoryTextDao : IRepositoryDao {
     public RepositoryTextDao(string path) {
@@ -60,5 +59,9 @@ public class RepositoryTextDao : IRepositoryDao {
         return true;
     }
 
+    public RepositoryRow? Update(RepositoryRow repo) {
+        throw new NotImplementedException();    
+    }
+    
     private readonly string _path;
 }

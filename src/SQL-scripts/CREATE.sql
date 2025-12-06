@@ -42,12 +42,14 @@ CREATE TABLE z_file (
 CREATE TABLE z_issue (
                          issue_id     INTEGER PRIMARY KEY AUTOINCREMENT,
                          repository_id INTEGER NOT NULL,
+                         creator_id   INTEGER NOT NULL,
                          title        NVARCHAR(255) NOT NULL,
                          description  NVARCHAR(1000),
-                         created_by   INTEGER NOT NULL,
                          status       TEXT NOT NULL DEFAULT 'open' CHECK (status IN ('open', 'closed')),
+                         created_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                         closed_at    DATETIME NULL DEFAULT NULL,
                          FOREIGN KEY (repository_id) REFERENCES z_repository(repository_id) ON DELETE CASCADE,
-                         FOREIGN KEY (created_by) REFERENCES z_user(user_id) ON DELETE CASCADE
+                         FOREIGN KEY (creator_id) REFERENCES z_user(user_id) ON DELETE CASCADE,
 );
 
 -- Table: z_comment

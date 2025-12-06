@@ -1,0 +1,31 @@
+@using MiniGitHub.Web.Extensions
+@model EditUserDTO
+
+@{
+    ViewBag.Title = "Edit User";
+    Layout = "_Layout";
+}
+
+@using (Html.BeginForm("Edit", "User")) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <h2>Edit User</h2>
+   
+    <div class="form-group mb-3">
+        <label asp-for="Username" class="form-label"></label>
+        <input asp-for="Username" type="text" class="form-control"/>
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" type="email" class="form-control"/>
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a asp-for="Profile" class="btn btn-outline-danger">Cancel</a>
+    </div>
+}

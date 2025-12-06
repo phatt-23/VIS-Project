@@ -1,15 +1,11 @@
 using MiniGitHub.Data.DAOs;
+using MiniGitHub.Data.DAOs.TextDAOs;
 using MiniGitHub.Data.DataAccessObjects;
 using MiniGitHub.Data.DataAccessObjects.TextDAOs;
 
 namespace MiniGitHub.Data.DataConnector;
 
 public class TextDataConnector : IDataConnector {
-    public TextDataConnector() {
-        _userTextFile = "user.txt";
-        _repositoryTextFile = "repository.txt";
-        _directoryPath = GlobalConfig.GetTextFilePath();
-    }
 
     public IUserDao CreateUserDao() {
         string path = _directoryPath + _userTextFile;
@@ -29,6 +25,14 @@ public class TextDataConnector : IDataConnector {
         throw new NotImplementedException(); 
     }
 
+    public IIssueDao CreateIssueDao() {
+        throw new NotImplementedException();
+    }
+
+    public ICommentDao CreateCommentDao() {
+        throw new NotImplementedException();
+    }
+
     public void BeginTransaction() {
         throw new NotImplementedException();
     }
@@ -41,7 +45,7 @@ public class TextDataConnector : IDataConnector {
         throw new NotImplementedException();
     }
 
-    private readonly string _directoryPath;
-    private readonly string _userTextFile;
-    private readonly string _repositoryTextFile;
+    private readonly string _directoryPath = GlobalConfig.GetTextFilePath();
+    private const string _userTextFile = "user.txt";
+    private const string _repositoryTextFile = "repository.txt";
 }

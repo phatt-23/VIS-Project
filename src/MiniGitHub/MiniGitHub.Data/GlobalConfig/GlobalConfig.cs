@@ -64,5 +64,4 @@ public static class GlobalConfig {
     // defaults
     private static string _sqliteFile = "MiniGitHubDB.sqlite3";
     private static string _textDbDirectory = "MiniGitHubDB.txt.data/";
-    
 }

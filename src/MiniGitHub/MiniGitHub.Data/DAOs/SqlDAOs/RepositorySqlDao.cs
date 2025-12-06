@@ -94,5 +94,23 @@ public class RepositorySqlDao : IRepositoryDao {
         return false; 
     }
 
+    public RepositoryRow? Update(RepositoryRow repo) {
+        var db = new SqlDatabaseCall(_connection);
+
+        string sql = @"UPDATE z_repository SET name=@name, description=@description, is_public=@is_public WHERE repository_id=@repository_id";
+        Dictionary<string, object> ps = new () {
+            {"@repository_id", repo.RepositoryId},
+            {"@name", repo.Name},
+            {"@description", repo.Description},
+            {"@is_public", repo.IsPublic}
+        };
+        
+        if (db.ExecuteNonQuery(sql, ps) > 0) {
+            return repo;
+        }
+        
+        return null;
+    }
+
     private readonly DbConnection _connection;
 }

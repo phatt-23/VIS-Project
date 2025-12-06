@@ -119,7 +119,7 @@
 #include "4-skica/skica.typ"
 #pagebreak()
 
-#include "5-domen-model/domen-model.typ"
+#include "5-domain-model/domain-model.typ"
 #pagebreak()
 
 #include "6-architecture/architecture.typ"

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "M9pm9MjnquoSq3Zde2ZyiJpoNLIisIefD9RlZlBSVhU=",
+  "Hash": "e+IvNzKmwupQq6BWMtpDC7A9iV3YfV4jnfKYoDEbDVE=",
   "Source": "MiniGitHub.Web",
   "BasePath": "_content/MiniGitHub.Web",
   "Mode": "Default",
@@ -143,12 +143,12 @@
       "OriginalItemSpec": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map"
     },
     {
-      "Identity": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/obj/Debug/net9.0/compressed/370a694b2e-pj5nd1wqec.gz",
+      "Identity": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/obj/Debug/net9.0/compressed/370a694b2e-jbx744llgp.gz",
       "SourceId": "MiniGitHub.Web",
       "SourceType": "Discovered",
       "ContentRoot": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/MiniGitHub.Web",
-      "RelativePath": "lib/bootstrap/dist/css/bootstrap.css#[.{fingerprint=pj5nd1wqec}]?.map.gz",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap.css#[.{fingerprint=jbx744llgp}]?.map.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -157,8 +157,8 @@
       "RelatedAsset": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "02wdab7yxg",
-      "Integrity": "eNbh3ji62KfOQPqaPI4Zbz1qL3pPwBNwebj4qRICP6Q=",
+      "Fingerprint": "9yjjz63hsh",
+      "Integrity": "P8lxsBoDW+HSKNnGsAliTALsDagxa4YEaKtCBUJwGj4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map"
@@ -2005,8 +2005,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "pj5nd1wqec",
-      "Integrity": "KzNVR3p7UZGba94dnCtlc6jXjK5urSPiZ/eNnKTmDkw=",
+      "Fingerprint": "jbx744llgp",
+      "Integrity": "kbeto2xTMmKht+wpEF83+hCMvvEM1QaNeRNA+H3SHbs=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap.css.map"
@@ -10911,13 +10911,13 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap.css.map",
-      "AssetFile": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/obj/Debug/net9.0/compressed/370a694b2e-pj5nd1wqec.gz",
+      "Route": "lib/bootstrap/dist/css/bootstrap.css.jbx744llgp.map",
+      "AssetFile": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/obj/Debug/net9.0/compressed/370a694b2e-jbx744llgp.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000008719764"
+          "Quality": "0.000008719384"
         }
       ],
       "ResponseHeaders": [
@@ -10927,19 +10927,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "114681"
+          "Value": "114686"
         },
         {
           "Name": "ETag",
-          "Value": "\"eNbh3ji62KfOQPqaPI4Zbz1qL3pPwBNwebj4qRICP6Q=\""
+          "Value": "\"P8lxsBoDW+HSKNnGsAliTALsDagxa4YEaKtCBUJwGj4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 30 Sep 2025 18:55:26 GMT"
+          "Value": "Fri, 05 Dec 2025 23:32:49 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "no-cache"
+          "Value": "max-age=31536000, immutable"
         },
         {
           "Name": "Content-Encoding",
@@ -10955,18 +10955,26 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"KzNVR3p7UZGba94dnCtlc6jXjK5urSPiZ/eNnKTmDkw=\""
+          "Value": "W/\"kbeto2xTMmKht+wpEF83+hCMvvEM1QaNeRNA+H3SHbs=\""
         }
       ],
       "EndpointProperties": [
         {
+          "Name": "fingerprint",
+          "Value": "jbx744llgp"
+        },
+        {
+          "Name": "label",
+          "Value": "lib/bootstrap/dist/css/bootstrap.css.map"
+        },
+        {
           "Name": "integrity",
-          "Value": "sha256-KzNVR3p7UZGba94dnCtlc6jXjK5urSPiZ/eNnKTmDkw="
+          "Value": "sha256-kbeto2xTMmKht+wpEF83+hCMvvEM1QaNeRNA+H3SHbs="
         }
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap.css.map",
+      "Route": "lib/bootstrap/dist/css/bootstrap.css.jbx744llgp.map",
       "AssetFile": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
       "Selectors": [],
       "ResponseHeaders": [
@@ -10976,7 +10984,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "679755"
+          "Value": "679758"
         },
         {
           "Name": "Content-Type",
@@ -10984,121 +10992,21 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"KzNVR3p7UZGba94dnCtlc6jXjK5urSPiZ/eNnKTmDkw=\""
+          "Value": "\"kbeto2xTMmKht+wpEF83+hCMvvEM1QaNeRNA+H3SHbs=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 30 Sep 2025 18:55:26 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-KzNVR3p7UZGba94dnCtlc6jXjK5urSPiZ/eNnKTmDkw="
-        }
-      ]
-    },
-    {
-      "Route": "lib/bootstrap/dist/css/bootstrap.css.map.gz",
-      "AssetFile": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/obj/Debug/net9.0/compressed/370a694b2e-pj5nd1wqec.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "114681"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/plain"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"eNbh3ji62KfOQPqaPI4Zbz1qL3pPwBNwebj4qRICP6Q=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 30 Sep 2025 18:55:26 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-eNbh3ji62KfOQPqaPI4Zbz1qL3pPwBNwebj4qRICP6Q="
-        }
-      ]
-    },
-    {
-      "Route": "lib/bootstrap/dist/css/bootstrap.css.pj5nd1wqec.map",
-      "AssetFile": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/obj/Debug/net9.0/compressed/370a694b2e-pj5nd1wqec.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000008719764"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "114681"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"eNbh3ji62KfOQPqaPI4Zbz1qL3pPwBNwebj4qRICP6Q=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 30 Sep 2025 18:55:26 GMT"
+          "Value": "Fri, 05 Dec 2025 23:32:49 GMT"
         },
         {
           "Name": "Cache-Control",
           "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/plain"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"KzNVR3p7UZGba94dnCtlc6jXjK5urSPiZ/eNnKTmDkw=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "pj5nd1wqec"
+          "Value": "jbx744llgp"
         },
         {
           "Name": "label",
@@ -11106,13 +11014,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-KzNVR3p7UZGba94dnCtlc6jXjK5urSPiZ/eNnKTmDkw="
+          "Value": "sha256-kbeto2xTMmKht+wpEF83+hCMvvEM1QaNeRNA+H3SHbs="
         }
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap.css.pj5nd1wqec.map",
-      "AssetFile": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
+      "Route": "lib/bootstrap/dist/css/bootstrap.css.jbx744llgp.map.gz",
+      "AssetFile": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/obj/Debug/net9.0/compressed/370a694b2e-jbx744llgp.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -11121,7 +11029,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "679755"
+          "Value": "114686"
         },
         {
           "Name": "Content-Type",
@@ -11129,56 +11037,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"KzNVR3p7UZGba94dnCtlc6jXjK5urSPiZ/eNnKTmDkw=\""
+          "Value": "\"P8lxsBoDW+HSKNnGsAliTALsDagxa4YEaKtCBUJwGj4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 30 Sep 2025 18:55:26 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "pj5nd1wqec"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/bootstrap/dist/css/bootstrap.css.map"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-KzNVR3p7UZGba94dnCtlc6jXjK5urSPiZ/eNnKTmDkw="
-        }
-      ]
-    },
-    {
-      "Route": "lib/bootstrap/dist/css/bootstrap.css.pj5nd1wqec.map.gz",
-      "AssetFile": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/obj/Debug/net9.0/compressed/370a694b2e-pj5nd1wqec.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "114681"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/plain"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"eNbh3ji62KfOQPqaPI4Zbz1qL3pPwBNwebj4qRICP6Q=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 30 Sep 2025 18:55:26 GMT"
+          "Value": "Fri, 05 Dec 2025 23:32:49 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -11196,7 +11059,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "pj5nd1wqec"
+          "Value": "jbx744llgp"
         },
         {
           "Name": "label",
@@ -11204,7 +11067,144 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-eNbh3ji62KfOQPqaPI4Zbz1qL3pPwBNwebj4qRICP6Q="
+          "Value": "sha256-P8lxsBoDW+HSKNnGsAliTALsDagxa4YEaKtCBUJwGj4="
+        }
+      ]
+    },
+    {
+      "Route": "lib/bootstrap/dist/css/bootstrap.css.map",
+      "AssetFile": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/obj/Debug/net9.0/compressed/370a694b2e-jbx744llgp.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000008719384"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "114686"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"P8lxsBoDW+HSKNnGsAliTALsDagxa4YEaKtCBUJwGj4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Dec 2025 23:32:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"kbeto2xTMmKht+wpEF83+hCMvvEM1QaNeRNA+H3SHbs=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-kbeto2xTMmKht+wpEF83+hCMvvEM1QaNeRNA+H3SHbs="
+        }
+      ]
+    },
+    {
+      "Route": "lib/bootstrap/dist/css/bootstrap.css.map",
+      "AssetFile": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "679758"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"kbeto2xTMmKht+wpEF83+hCMvvEM1QaNeRNA+H3SHbs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Dec 2025 23:32:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-kbeto2xTMmKht+wpEF83+hCMvvEM1QaNeRNA+H3SHbs="
+        }
+      ]
+    },
+    {
+      "Route": "lib/bootstrap/dist/css/bootstrap.css.map.gz",
+      "AssetFile": "/home/phatt/School/sem5/VIS/VIS-Project/src/MiniGitHub/MiniGitHub.Web/obj/Debug/net9.0/compressed/370a694b2e-jbx744llgp.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "114686"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"P8lxsBoDW+HSKNnGsAliTALsDagxa4YEaKtCBUJwGj4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Dec 2025 23:32:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-P8lxsBoDW+HSKNnGsAliTALsDagxa4YEaKtCBUJwGj4="
         }
       ]
     },

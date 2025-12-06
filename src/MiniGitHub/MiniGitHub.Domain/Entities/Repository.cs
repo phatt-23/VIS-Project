@@ -8,6 +8,7 @@ public class Repository {
     public bool IsPublic {get;set;}
     public DateTime CreatedAt {get;set;}
     public List<Commit> Commits {get;set;} = new List<Commit>();
+    public User Owner {get;set;}
 
     public Repository() {
     }

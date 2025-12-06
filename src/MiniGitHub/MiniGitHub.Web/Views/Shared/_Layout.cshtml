@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using MiniGitHub.Web.Extensions
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -13,22 +14,63 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MiniGitHub.Web</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand"
+               asp-area=""
+               asp-controller="Home"
+               asp-action="Index">
+                MiniGitHub.Web
+            </a>
+            
+            <button class="navbar-toggler" 
+                    type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target=".navbar-collapse" 
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false" 
+                    aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Users</a> 
                     </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    
+                    <form asp-action="Search" asp-controller="Home" method="get" role="search" class="d-flex me-3 my-1">
+                        <input type="text" name="query" class="form-control me-2" placeholder="Search"> 
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+
+
+                    @if (User.IsAuthenticated()) {
+                        <li class="nav-item">
+                            <a asp-action="Detail" asp-controller="User" asp-route-id="@User.GetUserId()" class="btn btn-link nav-link">
+                                @User.GetUsername()
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <form asp-action="Logout" asp-controller="Account">
+                                <button type="submit" class="btn btn-link nav-link">Logout</button>
+                            </form>
+                        </li>
+                    }
+                    else {
+                        <li class="nav-item">
+                            <a asp-action="Login" asp-controller="Account" class="nav-link text-dark">Login</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a asp-action="Register" asp-controller="Account" class="nav-link text-dark">Register</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
@@ -42,12 +84,15 @@
 
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; 2025 - MiniGitHub.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        &copy; 2025 - MiniGitHub.Web 
     </div>
 </footer>
+
+</body>
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
-</body>
+
 </html>

@@ -1,0 +1,48 @@
+@using MiniGitHub.Web.Extensions
+@model UserRegisterDTO
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "_Layout";
+}
+
+@using (Html.BeginForm(
+    "Register", 
+    "Account",
+    FormMethod.Post,
+    new { @class = "card p-4 shadow-sm mx-auto", style = "max-width: 600px;" }
+)) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <h2>Register</h2>
+   
+    <div class="form-group mb-3">
+        <label asp-for="Username" class="form-label"></label>
+        <input asp-for="Username" type="text" class="form-control"/>
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" type="text" class="form-control"/>
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group mb-3">
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" type="password" class="form-control"/>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group mb-3">
+        <label asp-for="ConfirmPassword" class="form-label"></label>
+        <input asp-for="ConfirmPassword" type="password" class="form-control"/>
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+    
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Register</button>
+        <p>Already have an account? <a asp-action="Login">Login</a></p>
+    </div>
+}

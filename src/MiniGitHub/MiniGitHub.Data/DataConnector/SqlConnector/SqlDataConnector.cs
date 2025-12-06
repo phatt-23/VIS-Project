@@ -40,6 +40,14 @@ public class SqlDataConnector : IDataConnector, IDisposable {
         return new FileSqlDao(_connection);
     }
 
+    public IIssueDao CreateIssueDao() {
+        return new IssueSqlDao(_connection);
+    }
+
+    public ICommentDao CreateCommentDao() {
+        return new CommentSqlDao(_connection);
+    }
+    
     public void BeginTransaction() {
         _transaction = _connection.BeginTransaction();
     }

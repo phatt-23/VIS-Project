@@ -9,6 +9,8 @@ public interface IDataConnector {
     IRepositoryDao CreateRepositoryDao();
     ICommitDao CreateCommitDao();
     IFileDao CreateFileDao();
+    IIssueDao CreateIssueDao();
+    ICommentDao CreateCommentDao();
 
     void BeginTransaction();
     void CommitTransaction();

@@ -1,0 +1,15 @@
+@using MiniGitHub.Web.Extensions
+@model AddRepoDTO
+
+@{
+    ViewBag.Title = "Add Repository";
+    Layout = "_Layout";
+}
+
+<h2>Add Repository</h2>
+
+@using (Html.BeginForm("Add", "Repository")) {
+    @Html.AntiForgeryToken()
+    @Html.EditorForModel()
+    @Html.SubmitButton("Add")
+}

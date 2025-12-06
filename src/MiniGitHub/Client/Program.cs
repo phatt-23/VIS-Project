@@ -5,7 +5,7 @@ using MiniGitHub.Data.DataAccessObjects;
 using MiniGitHub.Data.DataConnector;
 using MiniGitHub.Data.Rows;
 using MiniGitHub.Domain.Entities;
-using MiniGitHub.Domain.Services.TransactionScriptPattern;
+using MiniGitHub.Domain.TransactionScript;
 
 namespace Test;
 

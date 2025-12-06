@@ -9,7 +9,7 @@ package "Presentation Layer" {
 package "Domain Layer" {
   [Entities] as Ent
   [Mappers] as Map
-  [Repositories\n(Services)] as Repo
+  [Services] as Repo
 }
 
 package "Data Layer" {

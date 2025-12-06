@@ -1,33 +1,59 @@
 using System.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiniGitHub.Data.DataConnector;
 using MiniGitHub.Domain.Entities;
-using MiniGitHub.Domain.Repositories;
+using MiniGitHub.Domain.Services;
+using MiniGitHub.Web.Extensions;
 using MiniGitHub.Web.Models;
+using File = MiniGitHub.Domain.Entities.File;
 
 namespace MiniGitHub.Web.Controllers;
 
 public class CommitController(
-    IRepositoryRepository repoRepository,
-    ICommitRepository commitRepository,
-    IFileRepository fileRepository
+    IRepositoryService repoService,
+    ICommitService commitService,
+    IFileService fileService
 ) : Controller 
 {
     [HttpGet]
-    public IActionResult Add(int repoId) {
+    [Authorize]
+    public IActionResult Add(long repoId) {
+        Repository? repo = repoService.GetRepo(repoId);
+        if (repo is null) {
+            return NotFound();
+        }
+
+        if (User.TryGetUserId() != repo.OwnerId) {
+            return Forbid();
+        }
+        
         var dto = new AddCommitDTO();
         dto.RepositoryId = repoId;
         return View(dto);
     }
 
     [HttpPost]
-    public IActionResult Add(AddCommitDTO dto) {
-
+    [Authorize]
+    public async Task<IActionResult> Add(AddCommitDTO dto) {
+        if (!ModelState.IsValid) {
+            return View();
+        }
+        
+        Repository? repo = repoService.GetRepo(dto.RepositoryId);
+        if (repo is null) return NotFound();
+        if (User.TryGetUserId() != repo.OwnerId) return Forbid();
+        
         try {
             Commit commit = new Commit(-1, dto.RepositoryId, dto.Message, DateTime.Now);
-            var files =  dto.Files.Select(f => { f.CommitId = commit.CommitId; return f; }).ToList();
             
-            commit = commitRepository.AddCommit(commit, files);
+            IEnumerable<File> files = dto.Files.Select<IFormFile, File>(file => {
+                StreamReader reader = new StreamReader(file.OpenReadStream());
+                string content = reader.ReadToEnd();
+                return new File(-1, -1, file.FileName, content);
+            });
+            
+            commit = commitService.AddCommit(commit, files);
             return RedirectToAction("Detail", new {id = commit.CommitId});
         }
         catch {
@@ -36,12 +62,30 @@ public class CommitController(
         }
     }
     
+    [HttpGet]
     public IActionResult Detail(long id) {
-        Commit? commit = commitRepository.GetCommit(id);
+        Commit? commit = commitService.GetCommit(id);
         if (commit == null) {
             return NotFound();
         }
         
         return View(commit);
+    }
+
+    [HttpGet]
+    public IActionResult List(long repoId) {
+        Repository? repo = repoService.GetRepo(repoId);
+        if (repo == null) {
+            return NotFound();
+        }
+        
+        List<Commit> commits = commitService.GetCommitsForRepo(repoId);
+
+        CommitListVM vm = new CommitListVM() {
+            Repo = repo,
+            Commits = commits,
+        };
+
+        return View(vm);
     }
 }

@@ -1,14 +1,16 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiniGitHub.Domain.Entities;
 using MiniGitHub.Domain.Mappers;
-using MiniGitHub.Domain.Repositories;
-using MiniGitHub.Domain.Services.TransactionScriptPattern;
+using MiniGitHub.Domain.Services;
+using MiniGitHub.Domain.TransactionScript;
+using MiniGitHub.Web.Extensions;
 using MiniGitHub.Web.Models;
 
 namespace MiniGitHub.Web.Controllers;
 
 public class UserController(
-    IUserRepository userRepository, 
+    IUserService userService, 
     UserMapper userMapper,
     RepositoryMapper repositoryMapper,
     GetUserWithRepositoriesTS getUserWithRepositoriesTs
@@ -17,22 +19,18 @@ public class UserController(
 
     [HttpGet]
     public IActionResult Index() {
-        ViewData["Users"] = userRepository.GetAllUsers();
+        ViewData["Users"] = userService.GetAllUsers();
         return View();
     }
 
     public IActionResult Detail(long id) {
-        // User? user = userRepository.GetUserWithRepositories(id);
-        
-        
         User? user = getUserWithRepositoriesTs.Run(id);
         
         if (user == null) {
             return NotFound("User not found");
         }
 
-        ViewData["User"] = user;
-        return View();
+        return View(user);
     }
 
     [HttpGet]
@@ -44,8 +42,50 @@ public class UserController(
     public IActionResult Add(AddUserDTO dto) {
         User user = new User(-1, dto.Username, dto.Email, dto.Password);
 
-        user = userRepository.AddUser(user);
+        user = userService.AddUser(user);
         
         return Redirect("Index");
+    }
+
+    [HttpGet]
+    [Authorize]
+    public IActionResult Edit() {
+        EditUserDTO dto = new EditUserDTO() {
+            Username = User.GetUsername(),
+            Email = User.GetEmail(),
+        };
+        return View(dto);
+    }
+
+    [HttpPost]
+    [Authorize]
+    public IActionResult Edit(EditUserDTO dto) {
+        if (!ModelState.IsValid) {
+            return View(dto);
+        }
+
+        if (userService.UserWithUsernameExists(dto.Username)) {
+            ModelState.AddModelError("Username", "User with this username already exists.");
+            return View(dto);
+        }
+
+        if (userService.UserWithEmailExists(dto.Email)) {
+            ModelState.AddModelError("Email", "User with this email already exists.");
+            return View(dto);
+        }
+
+        User? user = userService.GetUserByUsername(User.GetUsername());
+        if (user == null) {
+            return Forbid("User must exist to edit profile.");
+        }
+        
+        user.Username = dto.Username;
+        user.Email = dto.Email;
+
+        if (userService.UpdateUser(user) is null) {
+            return Forbid("Unable to update user.");
+        }
+        
+        return RedirectToAction("Detail", new {id = User.TryGetUserId()}); 
     }
 }

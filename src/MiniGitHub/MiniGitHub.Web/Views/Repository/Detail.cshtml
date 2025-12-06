@@ -1,0 +1,184 @@
+@model MiniGitHub.Web.Models.RepoDetailViewModel
+@using Microsoft.IdentityModel.Tokens
+@using MiniGitHub.Domain.Entities
+@using MiniGitHub.Web.Extensions
+
+@{
+    ViewBag.Title = Model.Owner.Username + "/" + Model.Repo.Name;
+    Layout = "_Layout";
+    bool isOwner = User.GetUserId() == Model.Owner.UserId;
+}
+
+<div class="row">
+    
+    <div class="col-lg-8">
+        <div>
+            <span class="d-block d-md-flex align-items-center me-2">
+                <h2 class="display-4 me-2 text-nowrap">@Model.Repo.Name</h2>
+                <h4>
+                    @if (Model.Repo.IsPublic) {
+                        <span class="badge bg-success">
+                            <i class="bi bi-unlock"></i>
+                            Public
+                        </span>
+                    }
+                    else {
+                        <span class="badge bg-secondary">
+                            <i class="bi bi-lock"></i>
+                            Private
+                        </span>
+                    }
+                </h4>
+            </span>
+
+            @if (isOwner) {
+                <a asp-action="Add" asp-controller="Commit" asp-route-repoId="@Model.Repo.RepositoryId">Add Commit</a>
+
+                <div class="d-flex gap-2">
+                    <a asp-action="Edit"
+                       asp-controller="Repository"
+                       asp-route-id="@Model.Repo.RepositoryId"
+                       class="btn btn-outline-secondary text-nowrap">
+                        Edit repository
+                    </a>
+
+                    <a asp-action="Remove"
+                       asp-controller="Repository"
+                       asp-route-id="@Model.Repo.RepositoryId"
+                       class="btn btn-outline-danger text-nowrap">
+                        Remove repository
+                    </a>
+                </div>
+            }
+
+            <p class="lead">@Model.Repo.Description</p>
+        </div>
+
+        @if (!Model.LatestFiles.IsNullOrEmpty()) {
+            <hr class="my-4">
+
+            <div class="card">
+                <div class="card-header">Files</div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var (index, file) in Model.LatestFiles.Indexed()) {
+                            <li class="list-group-item">
+                                <span class="row">
+                                    <span class="text-truncate col-sm-6" style="max-width: 50%">
+                                        <a class="text-decoration-none me-2"
+                                           type="button"
+                                           data-bs-toggle="collapse"
+                                           data-bs-target=@($"#file-content-{index}")>
+                                            @file.Path
+                                        </a>
+                                    </span>
+                                    <span class="col-sm-3">
+                                        <a asp-action="Detail"
+                                           asp-controller="Commit"
+                                           asp-route-id="@file.Commit.CommitId"
+                                           class="text-decoration-none">
+                                            @file.Commit.Message
+                                        </a>
+                                    </span>
+                                    <span class="col-sm-3 text-end text-body-secondary">
+                                        @file.Commit.CreatedAt
+                                    </span>
+                                </span>
+                                <div class="collapse mt-2" id=@($"file-content-{index}")>
+                                    <div class="card card-body"><pre><code>@file.Content</code></pre></div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+        else {
+            <p>No files yet</p>
+        }
+    </div>
+
+    <div class="col-lg-4 mt-4 mt-lg-0">
+        
+        <!-- issues -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center text-align-center">
+
+                <div class="my-auto">
+                    <a asp-action="List" asp-controller="Issue" asp-route-repoId="@Model.Repo.RepositoryId" class="text-decoration-none">
+                        Issues <span class="badge rounded-pill text-bg-warning">@Model.Issues.Count()</span>
+                    </a>
+                    <br>
+                    <small>Most recent open issues</small>
+                </div>
+                @if (User.IsAuthenticated()) {
+                    <a class="btn btn-sm btn-primary" asp-controller="Issue" asp-action="Add" asp-route-repoId="@Model.Repo.RepositoryId">
+                        Open issue
+                    </a>
+                }
+            </div>
+            <div class="card-body p-0">
+                @if (!Model.Issues.Any()) {
+                    <li class="list-group-item my-1">No issues yet</li>
+                }
+                else {
+                    <ul class="list-group list-group-flush">
+                        @foreach (Issue issue in Model.Issues) {
+                            <li class="list-group-item">
+                                <a asp-controller="Issue" asp-action="Detail" asp-route-id="@issue.IssueId" class="text-decoration-none">
+                                    @issue.Title
+                                    <p class="text-muted m-0">@issue.Creator.Username</p>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+
+        <!-- commits -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center text-align-center">
+                <div class="my-auto">
+                    <a asp-controller="Commit" asp-action="List" asp-route-repoId="@Model.Repo.RepositoryId"
+                       class="text-decoration-none">
+                        Commits
+                        <span class="badge rounded-pill bg-success">
+                            @Model.Commits.Count()
+                        </span>
+                    </a>
+                    <br>
+                    <small>Most recent commits</small>
+                </div>
+                @if (isOwner) {
+                    <a asp-controller="Commit"
+                       asp-action="Add"
+                       asp-route-repoId="@Model.Repo.RepositoryId"
+                       class="btn btn-sm btn-primary">
+                        Make a commit
+                    </a>
+                }
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    @if (!Model.Commits.Any()) {
+                        <li class="list-group-item my-1">No commits yet</li>
+                    }
+                    else {
+                        @foreach (Commit commit in Model.Commits) {
+                            <li class="list-group-item {% if forloop.last %}mb-1{% endif %}">
+                                <a asp-controller="Commit" asp-action="Detail" asp-route-id="@commit.CommitId"
+                                   class="text-decoration-none">
+                                    @commit.Message
+                                    <p class="text-muted m-0">@commit.CreatedAt</p>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+
+</div>

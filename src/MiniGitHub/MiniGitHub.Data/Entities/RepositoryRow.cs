@@ -1,5 +1,5 @@
 using System.Data.Common;
-using MiniGitHub.Data.Extensions;
+using MiniGitHub.Data.DataConnector.SqlConnector.Extensions;
 
 namespace MiniGitHub.Data.Rows;
 

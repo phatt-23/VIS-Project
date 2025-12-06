@@ -1,9 +1,18 @@
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
+
 namespace MiniGitHub.Web.Models;
 
-using File = MiniGitHub.Domain.Entities.File;
-
 public class AddCommitDTO {
+    [HiddenInput] 
     public long RepositoryId {get;set;}
-    public string Message {get;set;}
-    public List<File> Files {get;set;} = new List<File>();
+    
+    [Display(Name = "Message")]
+    [DataType(DataType.MultilineText)]
+    [Required(ErrorMessage = "Please enter a commit message.")]
+    public string Message {get;set;} = string.Empty;
+    
+    [Display(Name = "Files")]
+    [Required(ErrorMessage = "Please select at least one file.")]
+    public IFormFileCollection Files {get;set;}
 }

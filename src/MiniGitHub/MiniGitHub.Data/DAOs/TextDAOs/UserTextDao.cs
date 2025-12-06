@@ -34,7 +34,7 @@ public class UserTextDao : IUserDao {
         return users.First();        
     }
 
-    public UserRow GetByUsername(string username) {
+    public UserRow? GetByUsername(string username) {
         var users = GetAll().Where(u => u.Username == username).ToList();
         if (!users.Any()) {
             return null;
@@ -54,7 +54,7 @@ public class UserTextDao : IUserDao {
         return row;
     }
 
-    public UserRow Update(UserRow row) {
+    public UserRow? Update(UserRow row) {
         throw new NotImplementedException();
     }
 

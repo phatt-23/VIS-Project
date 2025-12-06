@@ -1,0 +1,163 @@
+@using Microsoft.IdentityModel.Tokens
+@using MiniGitHub.Domain.Entities
+@using MiniGitHub.Web.Extensions
+@model SearchDTO
+
+@{
+    ViewBag.Title = "Search";
+    Layout = "_Layout";
+}
+
+
+<form asp-action="Search" method="get" role="search" class="container">
+    <h2>Search</h2>
+    
+    <div class="row g-2 align-items-stretch">
+
+        <div class="col-sm-8">
+            <div class="form-floating h-100">
+                <input type="text"
+                       id="query"
+                       name="query"
+                       value="@Model.Query"
+                       class="form-control"
+                />
+                <label for="query">Search for users and repositories</label>
+            </div>
+        </div>
+
+        
+        <div class="col-sm-2">
+            <div class="dropdown h-100">
+                <button type="button"
+                        id="filterDropdown"
+                        data-bs-toggle="dropdown"
+                        class="btn btn-outline-secondary w-100 h-100 dropdown-toggle">
+                    @Model.Filter.GetDisplayName()
+                </button>
+
+                <input type="hidden" id="filterInput" name="filter" value="@Model.Filter" />
+                
+                <ul class="dropdown-menu dropdown-menu-end w-100" aria-labelledby="filterDropdown">
+                    <li>
+                        <button type="button"
+                                class="dropdown-item @(Model.Filter == SearchFilter.All ? "active" : "")"
+                                data-value="@SearchFilter.All">
+                            @SearchFilter.All.GetDisplayName()
+                        </button>
+                    </li>
+
+                    <li>
+                        <button type="button"
+                                class="dropdown-item @(Model.Filter == SearchFilter.Users ? "active" : "")"
+                                data-value="@SearchFilter.Users">
+                            @SearchFilter.Users.GetDisplayName()
+                        </button>
+                    </li>
+
+                    <li>
+                        <button type="button"
+                                class="dropdown-item @(Model.Filter == SearchFilter.Repos ? "active" : "")"
+                                data-value="@SearchFilter.Repos">
+                            @SearchFilter.Repos.GetDisplayName()
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-primary w-100 h-100">
+                Search
+            </button>
+        </div>
+
+    </div>
+</form>
+
+@if (!Model.Query.IsNullOrEmpty()) {
+    <h3 class="my-4">Users</h3>
+
+    @if (Model.Users.Any()) {
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            @foreach (User user in Model.Users) {
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h5 class="card-title mb-1">
+                                        <a class="text-decoration-none" asp-action="Detail" asp-controller="User" asp-route-id="@user.UserId">
+                                            @user.Username
+                                        </a>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else {
+        <p class="text-muted">No users were found.</p>
+    }
+    
+    <hr class="my-4">
+
+    <h3 class="my-4">Repositories</h3>
+      
+    @if (Model.Repos.Any()) {
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            @foreach (Repository repo in Model.Repos) {
+                <div class="col">
+                    <div class="card"> 
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a asp-controller="Repository"
+                                   asp-action="Detail"
+                                   asp-route-id="@repo.RepositoryId"
+                                   class="text-decoration-none">
+                                    @repo.Name
+                                </a>
+                            </h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">
+                                <a asp-controller="User"
+                                   asp-action="Detail"
+                                   asp-route-id="@repo.Owner.UserId"
+                                   class="text-decoration-none text-muted">
+                                    @repo.Owner.Username 
+                                </a>
+                            </h6>
+                            <p class="card-text">@repo.Description.OrDefault("No description provided.")</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else {
+        <p class="text-muted">No repositories were found.</p>
+    }
+    
+}
+
+@section Scripts {
+    <script>    
+        document.querySelectorAll(".dropdown-item[data-value]").forEach(item => {
+            item.addEventListener("click", function () {
+                const value = this.getAttribute("data-value");
+
+                // Set hidden input
+                document.getElementById("filterInput").value = value;
+
+                // Update dropdown button label
+                document.getElementById("filterDropdown").textContent = this.textContent;
+
+                // Mark selected item as active
+                document.querySelectorAll(".dropdown-item").forEach(i => i.classList.remove("active"));
+                this.classList.add("active");
+            });
+        });
+    </script>
+}
