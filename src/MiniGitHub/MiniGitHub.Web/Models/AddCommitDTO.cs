@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using MiniGitHub.Domain.Entities;
 
 namespace MiniGitHub.Web.Models;
 

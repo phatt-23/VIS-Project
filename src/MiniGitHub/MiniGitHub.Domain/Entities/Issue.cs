@@ -37,5 +37,8 @@ public class Issue {
         Description = description;
         Status = status;
         CreatedAt = createdAt;
+        ClosedAt = closedAt;
     }
+
+    public bool IsOpen => Status == IssueStatus.Open;
 }

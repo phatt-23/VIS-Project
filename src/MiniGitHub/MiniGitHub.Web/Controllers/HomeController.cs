@@ -41,11 +41,11 @@ public class HomeController(
             List<Repository> repos = repoService.GetAllRepos()
                 .Where(r => r.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
                 .ToList();
-            
-            repos.ForEach(r => {
-                User owner = userService.GetUserById(r.OwnerId)!; 
-                r.Owner = owner;
-            });
+
+            foreach (Repository repo in repos) {
+                User user = userService.GetUserById(repo.OwnerId)!;
+                repo.Owner = user;
+            }
             
             dto.Repos = repos;
         }

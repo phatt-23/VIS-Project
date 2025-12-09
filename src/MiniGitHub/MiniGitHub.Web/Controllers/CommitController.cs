@@ -13,7 +13,8 @@ namespace MiniGitHub.Web.Controllers;
 public class CommitController(
     IRepositoryService repoService,
     ICommitService commitService,
-    IFileService fileService
+    IFileService fileService,
+    IUserService userService
 ) : Controller 
 {
     [HttpGet]
@@ -27,10 +28,20 @@ public class CommitController(
         if (User.TryGetUserId() != repo.OwnerId) {
             return Forbid();
         }
+
+        repo.Owner = userService.GetUserById(repo.OwnerId)!;
         
         var dto = new AddCommitDTO();
         dto.RepositoryId = repoId;
-        return View(dto);
+
+        CommitAddVM model = new CommitAddVM() {
+            Form = new AddCommitDTO() {
+                RepositoryId = repoId,
+            },
+            Repo = repo,
+        };
+        
+        return View(model);
     }
 
     [HttpPost]
@@ -68,6 +79,8 @@ public class CommitController(
         if (commit == null) {
             return NotFound();
         }
+
+        commit.Repository = repoService.GetRepo(commit.RepositoryId)!;
         
         return View(commit);
     }
@@ -78,12 +91,19 @@ public class CommitController(
         if (repo == null) {
             return NotFound();
         }
+
+        repo.Owner = userService.GetUserById(repo.OwnerId)!;
         
         List<Commit> commits = commitService.GetCommitsForRepo(repoId);
+
+        commits.ForEach(c => {
+            c.Files = fileService.GetByCommitId(c.CommitId);
+        });
 
         CommitListVM vm = new CommitListVM() {
             Repo = repo,
             Commits = commits,
+            SearchForm = new CommitSearchForm(),
         };
 
         return View(vm);

@@ -1,3 +1,4 @@
+@using MiniGitHub.Domain.Entities
 @using MiniGitHub.Web.Extensions
 @model AddRepoDTO
 
@@ -6,10 +7,45 @@
     Layout = "_Layout";
 }
 
-<h2>Add Repository</h2>
+<form asp-controller="Repository"
+      asp-action="Add"
+      asp-antiforgery="true"
+      method="post"
+      class="card p-4 shadow-sm mx-auto" 
+      style="max-width: 600px;">
 
-@using (Html.BeginForm("Add", "Repository")) {
-    @Html.AntiForgeryToken()
-    @Html.EditorForModel()
-    @Html.SubmitButton("Add")
-}
+  <h2 class="mb-4">Create a new repository</h2>
+
+  <div class="form-floating mb-3">
+    <input asp-for="Name" type="text" class="form-control" placeholder="Enter repository name" required>
+    <label asp-for="Name" class="form-label"></label>
+    <span asp-validation-for="Name"></span>
+  </div>
+
+  <div class="form-floating mb-3">
+    <textarea asp-for="Description" class="form-control" style="height: 120px;" placeholder="Enter description"></textarea>
+    <label asp-for="Description" class="form-label"></label>
+    <span asp-validation-for="Description"></span>
+  </div>
+
+  <div class="form-group mb-3">
+    <div class="form-check">
+      <input asp-for="Visibility" value="@Visibility.Public" class="form-check-input" type="radio" id="vis_public" checked>
+      <label class="form-check-label" for="vis_public">
+        Public <p class="text-sm text-muted"><small>Anyone on the internet can see this repository.</small></p>
+      </label>
+    </div>
+    <div class="form-check">
+      <input asp-for="Visibility" value="@Visibility.Private" class="form-check-input" type="radio" id="vis_private">
+      <label class="form-check-label" for="vis_private">
+        Private <p class="text-muted"><small>Only you can see this repository.</small></p>
+      </label>
+    </div>
+    <span asp-validation-for="Visibility" class="text-danger"></span>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-primary">Create repository</button>
+  </div>
+</form>
+

@@ -1,3 +1,5 @@
+@using MiniGitHub.Domain.Entities
+@using MiniGitHub.Web.Extensions
 @model IssueDetailViewModel
 
 @{
@@ -5,7 +7,105 @@
     Layout = "_Layout";
 }
 
-<h2>Issue Detail - @Model.Issue.Title</h2>
+<div id="app">
+  <h2><strong>@Model.Issue.IssueId</strong> @Model.Issue.Title</h2>
+  
+  <h4>
+    <span class="badge @(Model.Issue.IsOpen ? "text-bg-warning" : "text-bg-success")">
+      <i class="bi me-1 @(Model.Issue.IsOpen ? "bi-circle" : "bi-check-circle")"></i> 
+      @Model.Issue.Status
+    </span>
+  </h4>
+  
+  <div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <div>
+        <a asp-controller="User" asp-action="Detail" asp-route-id="@Model.Issue.Creator.UserId" class="text-decoration-none ">
+          @Model.Issue.Creator.Username
+        </a>
+        @if (Model.Issue.IsOpen) {
+          <span>Opened @Model.Issue.CreatedAt</span>
+        }
+        else {
+          <span>Closed @Model.Issue.ClosedAt</span>
+        }
+      </div>
+      <div>
+        <i class="bi bi-chat-left-quote me-2"></i>
+        @Model.Issue.Comments.Count @(Model.Issue.Comments.Count == 1 ? "comment" : "comments")
+      </div>
+    </div>
+    <div class="card-body">
+      @Model.Issue.Description
+    </div>
+  </div>
+  
+  
+  <div>
+    @if (Model.Issue.Comments.Any()) {
+      <hr>
+      
+      <ul class="list-group list-group-flush">
+        @foreach (Comment comment in Model.Issue.Comments) {
+          <li class="list-group-item">
+            <div class="my-4 row">
+              <div class="col-sm-11">
+                <div class="card">
+                  <div class="card-header d-flex justify-content-between">
+                    <span>
+                      <a asp-controller="User" asp-action="Detail" asp-route-id="@comment.AuthorId" class="text-decoration-none">
+                        @comment.Author.Username
+                      </a>
+                      commented @comment.CreatedAt @* {{ comment.created_at|last_updated_fmt }} *@
+                    </span>
+                  </div>
+                  <div class="card-body">
+                    @comment.Content
+                    @* {{ comment.content|linebreaks }} *@
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        }
+      </ul>
+      <hr>
+    } 
+    else {
+      <p class="alert alert-info mt-3">There are no comments.</p>
+    }
+  </div>
 
-<p>@Model.Issue.Description</p>
+  <form asp-controller="Comment" 
+        asp-action="Add" 
+        asp-antiforgery="true" 
+        method="post" 
+        class="card p-4">
+    <h4 class="mb-4">Add a comment</h4>
+    
+    <input type="hidden" asp-for="AddCommentForm.IssueId" name="IssueId"/>
 
+    <div class="form-floating mb-2">
+      <textarea asp-for="AddCommentForm.Content" name="Content" class="form-control" style="height: 120px;" placeholder></textarea>
+      <label asp-for="AddCommentForm.Content" class="form-label">What would you like to say?</label>
+    </div>
+    
+    <div class="d-flex justify-content-end gap-2">
+      <button type="submit"
+              name="action" 
+              value="close"
+              class="btn btn-outline-primary"
+              @((!Model.Issue.IsOpen || User.GetUserId() != Model.Issue.Creator.UserId && User.GetUserId() == Model.Issue.Repository.OwnerId) ? "disabled" : "")>
+        <i class="bi bi-check-circle me-1"></i> Close issue with a comment
+      </button>
+      
+      <button type="submit"
+              name="action" 
+              value="comment"
+              class="btn btn-primary">
+        <i class="bi bi-chat-left-quote me-1"></i> Comment
+      </button>
+    </div>
+  </form>
+  
+</div>

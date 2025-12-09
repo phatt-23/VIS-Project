@@ -9,7 +9,9 @@ namespace MiniGitHub.Web.Controllers;
 
 public class IssueController(
     IRepositoryService repoService,    
-    IIssueService issueService
+    IIssueService issueService,
+    ICommentService commentService,
+    IUserService userService   
 ) : Controller {
     
     [HttpGet]
@@ -21,6 +23,11 @@ public class IssueController(
 
         List<Issue> issues = issueService.GetIssuesForRepo(repo.RepositoryId);
 
+        foreach (Issue issue in issues) {
+            issue.Creator = userService.GetUserById(issue.CreatorId)!;
+            issue.Comments = commentService.GetCommentsForIssue(issue.IssueId);
+        }
+        
         IssueListViewModel model = new IssueListViewModel() {
             Repo = repo,
             Issues = issues,
@@ -35,9 +42,19 @@ public class IssueController(
         if (issue is null) {
             return NotFound();
         }
+        
+        issue.Comments = commentService.GetCommentsForIssue(issue.IssueId);
+        issue.Creator = userService.GetUserById(issue.CreatorId)!;
+
+        foreach (Comment comment in issue.Comments) {
+            comment.Author = userService.GetUserById(comment.AuthorId)!;
+        }
 
         IssueDetailViewModel model = new IssueDetailViewModel() {
             Issue = issue,
+            AddCommentForm = new CommentAddDTO() {
+                IssueId = issue.IssueId, 
+            }
         };
         
         return View(model);

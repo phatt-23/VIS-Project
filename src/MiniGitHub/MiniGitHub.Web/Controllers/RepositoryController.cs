@@ -78,8 +78,10 @@ public class RepositoryController(
         if (userId is null) {
             return Unauthorized();
         }
+
+        bool isPublic = model.Visibility == Visibility.Public;
         
-        Repository repo = new Repository(-1, userId.Value, model.Name, model.Description, model.IsPublic, DateTime.Now);
+        Repository repo = new Repository(-1, userId.Value, model.Name, model.Description, isPublic, DateTime.Now);
 
         repo = repoService.AddRepo(repo);
         
@@ -181,6 +183,20 @@ public class RepositoryController(
 
     [HttpGet]
     public IActionResult ListForUser(long userId) {
+        User? user = userService.GetUserById(userId);
+        if (user == null) {
+            return NotFound();
+        }
+        
+        List<Repository> repos = repoService.GetAllRepos().Where(r => r.OwnerId == userId).ToList();
+
+        ListReposVM model = new ListReposVM() {
+            User = user,
+            Repos = repos,
+            SearchForm = new SearchRepoForm(),
+        };
+        
+        return View(model);
         return Ok("List out repositories for user with id: " + userId);
     }
 }

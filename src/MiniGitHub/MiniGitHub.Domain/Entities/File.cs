@@ -22,5 +22,9 @@ public class File {
     {
         Commit = commit;
     }
-    
+
+    public int SizeInBytes => Content?.Length ?? 0;
+    public int SizeInKB => (Content?.Length ?? 0) / 1024;
+    public string Extension => Path.Split('.').LastOrDefault() ?? "";
+
 }

@@ -166,11 +166,12 @@
                     }
                     else {
                         @foreach (Commit commit in Model.Commits) {
-                            <li class="list-group-item {% if forloop.last %}mb-1{% endif %}">
-                                <a asp-controller="Commit" asp-action="Detail" asp-route-id="@commit.CommitId"
+                            <li class="list-group-item">
+                                <a asp-controller="Commit" 
+                                   asp-action="Detail" 
+                                   asp-route-id="@commit.CommitId"
                                    class="text-decoration-none">
-                                    @commit.Message
-                                    <p class="text-muted m-0">@commit.CreatedAt</p>
+                                    @commit.Message <p class="text-muted m-0">@commit.CreatedAt</p>
                                 </a>
                             </li>
                         }

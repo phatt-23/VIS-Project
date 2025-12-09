@@ -1,3 +1,5 @@
+@using MiniGitHub.Domain.Entities
+@using MiniGitHub.Web.Extensions
 @model CommitListVM
 
 @{
@@ -5,11 +7,110 @@
     Layout = "_Layout";
 }
 
-<h2>Commit List - @Model.Repo.Name</h2>
+<h2 class="mb-4">Commit history for @Model.Repo.Owner.Username/@Model.Repo.Name</h2>
 
-<ul>
-    @foreach (var commit in Model.Commits)
-    {
-        <li>@commit.Message</li>
+<div class="row mb-4">
+  <form
+    method="get"
+    role="search"
+    class="@(User.IsAuthenticated() ? "col-sm-9" : "col-sm-12")"
+  >
+    <div class="row g-2">
+      <div class="col-md-8">
+        <div class="form-floating">
+          <input name="Query" asp-for="SearchForm.Query" type="text" class="form-control" placeholder="Search commits...">
+          <label asp-for="SearchForm.Query"></label>
+        </div>
+      </div>
+  
+      <div class="col-sm-2">
+        <button type="button" data-bs-toggle="dropdown"
+                class="dropdown-toggle form-control btn btn-outline-secondary text-start p-3"
+        >
+          Order by
+        </button>
+        <ul class="dropdown-menu">
+          <li><span class="dropdown-item-text">Order by</span></li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <button class="dropdown-item" type="submit" name="@nameof(Model.SearchForm.OrderBy)" value="@CommitSearchForm.OrderByOptions.Timestamp">
+              Timestamp
+            </button>
+          </li>
+          <li>
+            <button class="dropdown-item" type="submit" name="@nameof(Model.SearchForm.OrderBy)" value="@CommitSearchForm.OrderByOptions.Author">
+              Author
+            </button>
+          </li>
+        </ul>
+      </div>
+  
+      <div class="col-sm-2">
+        <button type="button"
+                data-bs-toggle="dropdown"
+                class="dropdown-toggle form-control btn btn-outline-secondary text-start p-3">
+          Sort
+        </button>
+        <ul class="dropdown-menu">
+          <li><span class="dropdown-item-text">Sort direction</span></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><button class="dropdown-item" type="submit" name="@nameof(Model.SearchForm.Sort)" value="@CommitSearchForm.SortOptions.Ascending">Ascending</button></li>
+          <li><button class="dropdown-item" type="submit" name="@nameof(Model.SearchForm.Sort)" value="@CommitSearchForm.SortOptions.Descending">Descending</button></li>
+        </ul>
+      </div>
+    </div>
+  </form>
+  
+  @if (User.IsAuthenticated()) {
+    <div class="col-sm-3 text-md-end">
+      <a asp-controller="Commit" asp-action="Add" asp-route-repoId="@Model.Repo.RepositoryId"
+         class="btn btn-success w-100 p-3 text-nowrap">
+        <i class="bi bi-plus-lg me-1"></i> Make commit
+      </a>
+    </div>
+  }
+</div>
+
+<hr class="mt-4">
+
+<ul class="list-group list-group-flush">
+  @if (!Model.Commits.Any()) {
+    <p class="alert alert-info">No commits found.</p>
+  }
+  else {
+    @foreach (Commit commit in Model.Commits) {
+      <li class="list-group-item d-flex justify-content-between">
+        <div>
+          <h5 class="mb-1">
+            <a asp-controller="Commit" asp-action="Detail" asp-route-id="@commit.CommitId"
+               class="text-decoration-none">
+              @commit.Message
+            </a>
+          </h5>
+
+        @*
+          author of the commit
+
+          <small class="text-muted">
+            <a asp-controller="User" asp-action="Detail" asp-route-id="@commit."
+               class="text-decoration-none">
+              {{ commit.author.username }}
+            </a>
+            committed {{ commit.timestamp|last_updated_fmt }} <span>({{ commit.timestamp }})</span>
+          </small>
+          *@
+
+        </div>
+
+        <div class="d-flex align-items-center">
+          <span>
+            <i class="bi bi-file-code"></i>
+            @commit.Files.Count @(commit.Files.Count == 1 ? "file" : "files")
+          </span>
+        </div>
+      </li>
     }
+  }
 </ul>
+
+

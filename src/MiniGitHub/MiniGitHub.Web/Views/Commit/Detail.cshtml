@@ -1,3 +1,5 @@
+@using MiniGitHub.Domain.Entities
+@using MiniGitHub.Web.Extensions
 @model MiniGitHub.Domain.Entities.Commit
 
 @{
@@ -5,18 +7,29 @@
     Layout = "_Layout";
 }
 
-<h2>Commit</h2>
 
-<p>commitId: @Model.CommitId</p>
-<p>repoId: @Model.RepositoryId</p>
-<p>message: @Model.Message</p>
+<h2>Commit for @Model.Repository.Name</h2>
+ 
+<p class="lead">
+  Commited on <em>@Model.CreatedAt</em> 
+  with message: <b>@Model.Message</b>
+</p>
 
-<h4>Files</h4>
-<ul>
-@foreach (var file in Model.Files) {
-    <li>
-        <p>Path: @file.Path</p>
-        <p>Content: @file.Content</p>
+<ul class="list-group">
+  @foreach ((int index, File file) in Model.Files.Indexed()) {
+    <li class="list-group-item">
+      <span class="d-flex justify-content-between">
+        <a type="button"
+          class="text-decoration-none me-2" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#file-content-@(index)">
+          @file.Path
+        </a>
+        <span class="text-muted">@file.SizeInKB KB <small>(@file.SizeInBytes bytes)</small></span>
+      </span>
+      <div class="collapse mt-2" id="file-content-@(index)">
+        <div class="card card-body"><pre><code class="language-@(file.Extension)">@file.Content</code></pre></div>
+      </div>
     </li>
-}
+  }
 </ul>

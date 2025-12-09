@@ -6,6 +6,8 @@ public class Commit {
     public string Message {get;set;}
     public DateTime CreatedAt {get;set;}
     public List<File> Files {get;set;} = new List<File>();
+    
+    public Repository Repository {get;set;}
 
     public Commit(long commitId, long repositoryId, string message, DateTime createdAt) {
         CommitId = commitId;

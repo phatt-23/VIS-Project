@@ -1,5 +1,10 @@
 namespace MiniGitHub.Domain.Entities;
 
+public enum Visibility {
+    Public,
+    Private,
+}
+
 public class Repository {
     public long RepositoryId {get;set;}
     public long OwnerId {get;set;}
@@ -9,6 +14,13 @@ public class Repository {
     public DateTime CreatedAt {get;set;}
     public List<Commit> Commits {get;set;} = new List<Commit>();
     public User Owner {get;set;}
+    
+    public List<Issue> Issues {get;set;} = new List<Issue>();
+    
+    public List<Issue> OpenIssues => Issues.Where(i => i.Status == IssueStatus.Open).ToList();
+    public List<Issue> ClosedIssues => Issues.Where(i => i.Status == IssueStatus.Closed).ToList();
+    
+    public Visibility Visibility => IsPublic ? Visibility.Public : Visibility.Private;
 
     public Repository() {
     }

@@ -1,0 +1,109 @@
+@using MiniGitHub.Domain.Entities
+@using MiniGitHub.Web.Extensions
+@model ListReposVM
+
+@{
+    ViewBag.Title = "User Repos";
+    Layout = "_Layout";
+
+    bool isOwner = User.TryGetUserId() == Model.User.UserId;
+}
+
+<div class="row mb-4">
+  
+  <form method="get" role="search" class="@(isOwner ? "col-sm-9" : "col-sm-12")">
+    <div class="row g-2">
+      <div class="col-md-8">
+        <div class="form-floating">
+          <input name="Query" asp-for="SearchForm.Query" type="text" class="form-control" placeholder="Search">
+          <label asp-for="SearchForm.Query"></label>
+        </div>
+      </div>
+
+      <div class="col-sm-2">
+        <button type="button"
+                id="sortDropdown"
+                data-bs-toggle="dropdown"
+                class="dropdown-toggle form-control btn btn-outline-secondary text-start p-3">
+          Order by
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+          <li><span class="dropdown-item-text">Select order</span></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><button class="dropdown-item" type="submit" name="orderBy" value="CreatedAt">Last updated</button></li>
+          <li><button class="dropdown-item" type="submit" name="orderBy" value="Name">Name</button></li>
+        </ul>
+      </div>
+
+      <div class="col-sm-2">
+        <button type="button" id="sortDropdown" data-bs-toggle="dropdown"
+                class="dropdown-toggle form-control btn btn-outline-secondary text-start p-3">
+          Sort
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+          <li><span class="dropdown-item-text">Select order</span></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><button class="dropdown-item" type="submit" name="sort" value="Asc">Ascending</button></li>
+          <li><button class="dropdown-item" type="submit" name="sort" value="Desc">Descending</button></li>
+        </ul>
+      </div>
+    </div>
+  </form>
+  
+  @if (isOwner) {
+    <div class="col-sm-3 text-md-end">
+      <a asp-controller="Repository" asp-action="Add" class="btn btn-success w-100 p-3">
+        <i class="bi bi-plus-lg me-1"></i> Add Repository
+      </a>
+    </div>
+  }
+</div>
+
+<hr class="my-4">
+
+@if (!Model.Repos.Any()) {
+  <p class="alert alert-info">No repositories found.</p>
+}
+else {
+  @foreach (Repository repo in Model.Repos) {
+    <div class="container">
+      
+      <h5>
+        <a asp-controller="Repository" asp-action="Detail" asp-route-id="@repo.RepositoryId" class="text-decoration-none me-2">
+          @repo.Owner.Username
+        </a>
+        @if (repo.IsPublic) {
+          <span class="badge bg-success">Public</span>
+        }
+        else {
+          <span class="badge bg-secondary">Private</span>
+        }
+      </h5>
+
+      <p>
+        @repo.Description
+
+        <div class="text-muted small">
+          @repo.OpenIssues.Count open
+
+          <a asp-controller="Issue" asp-action="List" asp-route-repoId="@repo.RepositoryId">@(repo.OpenIssues.Count == 1 ? "issue" : "issues")</a>
+
+          &bull;
+
+          @{
+            Commit? lastCommit = repo.Commits.LastOrDefault();
+          }
+
+          @if (lastCommit != null) {
+            <span>last <a asp-controller="Commit" asp-action="Detail" asp-route-id="@lastCommit.CommitId">commited</a> @lastCommit.CreatedAt</span>
+          }
+          else {
+            <span>created @repo.CreatedAt</span>
+          }
+        </div>
+      </p>
+
+    </div>
+    <hr class="my-4">
+  }
+}
