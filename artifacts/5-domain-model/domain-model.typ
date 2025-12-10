@@ -42,11 +42,18 @@ and it either succeeds or it fails and throws an error.
 == Class Diagram
 
 #figure(
-  image("../plantuml-diagrams/class-diagram.png"),
-  caption: [Domain Model Class Diagram]
+  grid(
+    columns: (1fr, 0.2fr, 1fr),
+    grid.cell(
+      image("../plantuml-diagrams/class-diagram-domain.png"),
+    ),
+    grid.cell([]),
+    grid.cell(
+      image("../plantuml-diagrams/class-diagram-data.png"),
+    ),
+  ),
+  caption: [Class Diagrams of Data and Domain Layers]
 )
-
-The classes filled red belong to the data layer.
 
 #pagebreak()
 

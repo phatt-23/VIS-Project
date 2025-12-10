@@ -6,7 +6,7 @@ namespace MiniGitHub.Domain.Mappers;
 public class FileMapper : IMapper<FileRow, File> {
     public FileRow MapToRow(File model) {
         return new FileRow() {
-            FileId = model.FileId,
+            Id = model.Id,
             CommitId = model.CommitId,
             Path = model.Path,
             Content = model.Content
@@ -14,6 +14,6 @@ public class FileMapper : IMapper<FileRow, File> {
     }
 
     public File MapFromRow(FileRow row) {
-        return new File(row.FileId, row.CommitId, row.Path, row.Content);
+        return new File(row.Id, row.CommitId, row.Path, row.Content);
     }
 }

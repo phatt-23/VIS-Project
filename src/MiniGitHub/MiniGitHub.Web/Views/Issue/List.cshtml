@@ -69,7 +69,7 @@
   
   @if (User.IsAuthenticated()) {
     <div class="col-sm-2 text-md-end">
-      <a asp-controller="Issue" asp-action="Add" asp-route-repoId="@Model.Repo.RepositoryId" class="btn btn-success w-100 p-3">
+      <a asp-controller="Issue" asp-action="Add" asp-route-repoId="@Model.Repo.Id" class="btn btn-success w-100 p-3">
         <i class="bi bi-plus-lg me-1"></i> Open issue
       </a>
     </div>
@@ -91,12 +91,12 @@
               <i class="bi me-1 @(issue.Status == IssueStatus.Open ? "bi-circle" : "bi-check-circle")"></i>
               @(issue.Status == IssueStatus.Open ? "Open" : "Closed")
             </span>
-            <a asp-controller="Issue" asp-action="Detail" asp-route-id="@issue.IssueId" class="text-decoration-none me-2">
+            <a asp-controller="Issue" asp-action="Detail" asp-route-id="@issue.Id" class="text-decoration-none me-2">
               @issue.Title
             </a>
           </h5>
           <small>
-            <a asp-controller="User" asp-action="Detail" asp-route-id="@issue.Creator.UserId" class="text-decoration-none">
+            <a asp-controller="User" asp-action="Detail" asp-route-id="@issue.Creator.Id" class="text-decoration-none">
               @issue.Creator.Username
             </a>
             

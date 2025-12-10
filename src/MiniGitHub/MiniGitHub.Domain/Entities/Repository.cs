@@ -5,8 +5,8 @@ public enum Visibility {
     Private,
 }
 
-public class Repository {
-    public long RepositoryId {get;set;}
+public class Repository : IIdentifiableObject {
+    public long Id {get;set;}
     public long OwnerId {get;set;}
     public string Name {get;set;}
     public string Description {get;set;}
@@ -25,8 +25,8 @@ public class Repository {
     public Repository() {
     }
 
-    public Repository(long repositoryId, long ownerId, string name, string description, bool isPublic, DateTime createdAt) {
-        RepositoryId = repositoryId;
+    public Repository(long id, long ownerId, string name, string description, bool isPublic, DateTime createdAt) {
+        Id = id;
         OwnerId = ownerId;
         Name = name;
         Description = description;
@@ -36,6 +36,6 @@ public class Repository {
     }
 
     public override string ToString() {
-        return $"Repository( RepositoryId: {RepositoryId}, OwnerId: {OwnerId}, Name: {Name}, Description: {Description}, IsPublic: {IsPublic}, CreatedAt: {CreatedAt} )";
+        return $"Repository( RepositoryId: {Id}, OwnerId: {OwnerId}, Name: {Name}, Description: {Description}, IsPublic: {IsPublic}, CreatedAt: {CreatedAt} )";
     }
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MiniGitHub.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+db28f8e811e26ad595c0e7e27105b497a69b3e8b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+57fa434c64dce4f2c51f5f7b0ef1a1eb6cf4a4fb")]
 [assembly: System.Reflection.AssemblyProductAttribute("MiniGitHub.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MiniGitHub.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

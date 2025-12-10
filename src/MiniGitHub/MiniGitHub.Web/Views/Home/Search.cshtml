@@ -87,7 +87,7 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <h5 class="card-title mb-1">
-                                        <a class="text-decoration-none" asp-action="Detail" asp-controller="User" asp-route-id="@user.UserId">
+                                        <a class="text-decoration-none" asp-action="Detail" asp-controller="User" asp-route-id="@user.Id">
                                             @user.Username
                                         </a>
                                     </h5>
@@ -116,7 +116,7 @@
                             <h5 class="card-title">
                                 <a asp-controller="Repository"
                                    asp-action="Detail"
-                                   asp-route-id="@repo.RepositoryId"
+                                   asp-route-id="@repo.Id"
                                    class="text-decoration-none">
                                     @repo.Name
                                 </a>
@@ -124,7 +124,7 @@
                             <h6 class="card-subtitle mb-2 text-body-secondary">
                                 <a asp-controller="User"
                                    asp-action="Detail"
-                                   asp-route-id="@repo.Owner.UserId"
+                                   asp-route-id="@repo.Owner.Id"
                                    class="text-decoration-none text-muted">
                                     @repo.Owner.Username 
                                 </a>

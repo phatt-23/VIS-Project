@@ -1,7 +1,5 @@
 using System.Data.Common;
-using MiniGitHub.Data.DataAccessObjects;
 using MiniGitHub.Data.Entities;
-using MiniGitHub.Data.Rows;
 
 namespace MiniGitHub.Data.DAOs.SqlDAOs;
 
@@ -35,7 +33,7 @@ file struct Sql {
 
 public class IssueSqlDao(DbConnection connection) : IIssueDao {
 
-    public IssueRow? GetById(long userId) {
+    public IssueRow GetById(long userId) {
         SqlDatabaseCall call = new SqlDatabaseCall(connection);
 
         DbDataReader reader = call.ExecuteReader(Sql.GetById, new() {
@@ -46,7 +44,7 @@ public class IssueSqlDao(DbConnection connection) : IIssueDao {
             return new IssueRow(reader);
         }
         
-        return null;
+        throw new Exception("Issue not found");
     }
 
     public List<IssueRow> GetAll() {
@@ -61,22 +59,7 @@ public class IssueSqlDao(DbConnection connection) : IIssueDao {
 
         return rows;
     }
-
-    public List<IssueRow> GetByRepoId(long repoId) {
-        SqlDatabaseCall call = new SqlDatabaseCall(connection);
-
-        DbDataReader reader = call.ExecuteReader(Sql.GetByRepoId, new() {
-            {"@repository_id", repoId},
-        });
-        
-        List<IssueRow> rows = new List<IssueRow>();
-        while (reader.Read()) {
-            rows.Add(new IssueRow(reader));
-        }
-
-        return rows;         
-    }
-
+    
     public IssueRow Insert(IssueRow row) {
         SqlDatabaseCall call = new SqlDatabaseCall(connection);
 
@@ -93,7 +76,7 @@ public class IssueSqlDao(DbConnection connection) : IIssueDao {
             throw new InvalidOperationException("Unable to insert new issue.");
         }
         
-        row.IssueId = (long)issueId;
+        row.Id = (long)issueId;
 
         return row;                  
     }
@@ -105,7 +88,7 @@ public class IssueSqlDao(DbConnection connection) : IIssueDao {
             {"@title", row.Title},
             {"@description", row.Description},
             {"@status", row.Status.ToDatabaseString()},
-            {"@issue_id", row.IssueId},
+            {"@issue_id", row.Id},
             {"@closed_at", row.ClosedAt},
         });
 
@@ -128,5 +111,20 @@ public class IssueSqlDao(DbConnection connection) : IIssueDao {
         }
         
         return true;                      
+    }
+    
+    public List<IssueRow> GetByRepoId(long repoId) {
+        SqlDatabaseCall call = new SqlDatabaseCall(connection);
+
+        DbDataReader reader = call.ExecuteReader(Sql.GetByRepoId, new() {
+            {"@repository_id", repoId},
+        });
+        
+        List<IssueRow> rows = new List<IssueRow>();
+        while (reader.Read()) {
+            rows.Add(new IssueRow(reader));
+        }
+
+        return rows;         
     }
 }

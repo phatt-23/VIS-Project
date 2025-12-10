@@ -12,10 +12,10 @@
 @foreach (User user in (List<User>)ViewData["Users"]) {
     <li>
         <div>
-            <p>UserID: @user.UserId</p>
+            <p>UserID: @user.Id</p>
             <p>Email: @user.Email</p>
             <p>Username: @user.Username</p>
-            <a asp-action="Detail" asp-route-id="@user.UserId">Detail</a>
+            <a asp-action="Detail" asp-route-id="@user.Id">Detail</a>
         </div>
     </li>
 }

@@ -1,7 +1,7 @@
 = Wireframe
 
 #figure(
-  image("../assets/wireframe/create-commit.png"),
+  image("../assets/wireframe/create-commit.png", width: 300pt),
   caption: [Writeframe - Add Commit]
 )
 

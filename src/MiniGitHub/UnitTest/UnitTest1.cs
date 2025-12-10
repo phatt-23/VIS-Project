@@ -18,12 +18,12 @@ public class SqlDaoTest {
 
         List<UserRow> users = _userDao.GetAll(); 
         foreach (UserRow user in users) {
-            _userDao.Delete(user.UserId);
+            _userDao.Delete(user.Id);
         }
         
         List<RepositoryRow> repos = _repoDao.GetAll();
         foreach (RepositoryRow repo in repos) {
-            _repoDao.Delete(repo.RepositoryId);
+            _repoDao.Delete(repo.Id);
         }
     }
 

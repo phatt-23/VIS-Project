@@ -1,10 +1,11 @@
 using System.Data.Common;
 using MiniGitHub.Data.DataConnector.SqlConnector.Extensions;
+using MiniGitHub.Data.Entities;
 
 namespace MiniGitHub.Data.Rows;
 
-public class RepositoryRow {
-    public long RepositoryId {get;set;}
+public class RepositoryRow : IIdentifialbeRow {
+    public long Id {get;set;}
     public long OwnerId {get;set;}
     public string Name {get;set;}
     public string Description {get;set;}
@@ -12,7 +13,7 @@ public class RepositoryRow {
     public DateTime CreatedAt {get;set;}
 
     public RepositoryRow() {
-        // need this for deserealization, and optional list initializing of the object
+        // need this for deserialization and optional list initializing of the object
     }
     
     public RepositoryRow(
@@ -31,7 +32,7 @@ public class RepositoryRow {
     }
 
     public RepositoryRow(DbDataReader reader) {
-        RepositoryId = reader.Get<long>("repository_id");
+        Id = reader.Get<long>("repository_id");
         OwnerId = reader.Get<long>("owner_id");
         Name = reader.Get<string>("name");
         Description = reader.Get<string>("description");
@@ -40,6 +41,6 @@ public class RepositoryRow {
     }
 
     public override string ToString() {
-        return $"RepositoryId: {RepositoryId}, OwnerId: {OwnerId}, Name: {Name}, Description: {Description}, IsPublic: {IsPublic}, CreatedAt: {CreatedAt}";
+        return $"RepositoryId: {Id}, OwnerId: {OwnerId}, Name: {Name}, Description: {Description}, IsPublic: {IsPublic}, CreatedAt: {CreatedAt}";
     }
 }

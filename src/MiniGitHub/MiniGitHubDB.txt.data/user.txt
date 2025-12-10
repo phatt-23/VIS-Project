@@ -1,1 +1,0 @@
-[{"UserId":0,"Username":"wendell","Email":"wendell@vsb.cz","Password":"strongRandomPassword"},{"UserId":1,"Username":"phatt","Email":"tra0163@vsb.cz","Password":"strongRandomPassword"}]

@@ -1,0 +1,165 @@
+@startuml
+/'hide circle'/
+/'skinparam classAttributeIconSize 0'/
+/'top to bottom direction'/
+left to right direction
+
+package DomainLayer {
+
+    folder Services {
+    
+        folder Interfaces {
+            
+            class IUserService {
+            }
+            
+            class IRepositoryService {
+            }
+            
+            class ICommitService {
+            }
+            
+            class ICommentService {
+            }
+            
+            class IFileService {
+            }
+            
+            class IIssueService {
+            }
+        }
+        
+        folder Implementations {
+        
+            class UserService {
+            }
+            
+            class RepositoryService {
+            }
+            
+            class CommitService {
+            }
+            
+            class CommentService {
+            }
+            
+            class FileService {
+            }
+            
+            class IssueService {
+            }
+            
+            UserService ..|> IUserService
+            RepositoryService ..|> IRepositoryService
+            CommitService ..|> ICommitService
+            CommentService ..|> ICommentService
+            FileService ..|> IFileService
+            IssueService ..|> IIssueService
+        }
+    
+        
+    }   
+    
+    folder Entities {
+        
+        interface IIdentifiableObject {
+            long Id
+        }
+        
+        class User implements IIdentifiableObject {
+        }
+        class Repository implements IIdentifiableObject {
+        }
+        class Issue implements IIdentifiableObject {
+        }
+        class Commit implements IIdentifiableObject {
+        }
+        class Comment implements IIdentifiableObject {
+        }
+        class File implements IIdentifiableObject {
+        }
+        
+    }
+    
+    folder Mappers {
+    
+        interface IMapper<D, T> {
+            MapFromRow(D row): T
+            MapToRow(T entity): D
+        }
+    
+        class UserMapper implements IMapper<UserRow, User> {
+        }
+        class RepositoryMapper implements IMapper<RepositoryRow, Repository>  {
+        }
+        class IssueMapper implements IMapper<IssueRow, Issue>  {
+        }
+        class CommitMapper implements IMapper<CommitRow, Commit> {
+        }
+        class CommentMapper implements IMapper<CommentRow, Comment> {
+        }
+        class FileMapper implements IMapper<FileRow, File> {
+        }
+    }
+
+}
+
+package DataLayer #DDDDDD {
+
+    folder Entities {
+        class UserRow {}
+        class RepositoryRow {}
+        class IssueRow {}
+        class CommitRow {}
+        class CommentRow {}
+        class FileRow {}
+    }
+    
+    folder DAOs {
+        interface IIUserDao
+        interface IRepositoryDao
+        interface IIssueDao
+        interface ICommitDao
+        interface ICommentDao
+        interface IFileDao
+    }
+}
+
+UserMapper ..> User
+RepositoryMapper ..> Repository
+IssueMapper ..> Issue
+CommitMapper ..> Commit
+CommentMapper ..> Comment
+FileMapper ..> File
+
+UserMapper ..> UserRow
+RepositoryMapper ..> RepositoryRow
+IssueMapper ..> IssueRow
+CommitMapper ..> CommitRow
+CommentMapper ..> CommentRow
+FileMapper ..> FileRow
+
+
+UserService *-- UserMapper
+RepositoryService *-- RepositoryMapper
+CommitService *-- CommitMapper
+CommentService *-- CommentMapper
+FileService *-- FileMapper
+IssueService *-- IssueMapper
+
+UserService *-- DAOs
+RepositoryService *-- DAOs
+CommitService *-- DAOs
+CommentService *-- DAOs
+FileService *-- DAOs
+IssueService *-- DAOs
+
+/'package DomainLayer {'/
+
+/'}'/
+
+/'package PresentationLayer {'/
+   
+/'}'/
+
+@enduml

@@ -1,7 +1,7 @@
 namespace MiniGitHub.Domain.Entities;
 
-public class Commit {
-    public long CommitId {get;set;}
+public class Commit : IIdentifiableObject {
+    public long Id {get;set;}
     public long RepositoryId {get;set;}
     public string Message {get;set;}
     public DateTime CreatedAt {get;set;}
@@ -9,8 +9,8 @@ public class Commit {
     
     public Repository Repository {get;set;}
 
-    public Commit(long commitId, long repositoryId, string message, DateTime createdAt) {
-        CommitId = commitId;
+    public Commit(long id, long repositoryId, string message, DateTime createdAt) {
+        Id = id;
         RepositoryId = repositoryId;
         Message = message;
         CreatedAt = createdAt;

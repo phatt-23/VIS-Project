@@ -1,24 +1,13 @@
-using System.Data;
 using System.Data.Common;
-using Microsoft.Data.Sqlite;
-using MiniGitHub.Data.DAOs;
-using MiniGitHub.Data.DAOs.SqlDAOs;
 using MiniGitHub.Data.Rows;
-using static MiniGitHub.Data.DataConnector.SqlConnector.Extensions.DbCommandExtensions;
 
-namespace MiniGitHub.Data.DataAccessObjects;
+namespace MiniGitHub.Data.DAOs.SqlDAOs;
 
-public class UserSqlDao : IUserDao
-{
-    public UserSqlDao(DbConnection connection)
-    {
-        _connection = connection;
-    }
-
+public class UserSqlDao(DbConnection connection) : IUserDao {
     public List<UserRow> GetAll()
     {
         List<UserRow> rows = new();
-        var call = new SqlDatabaseCall(_connection);
+        var call = new SqlDatabaseCall(connection);
 
         var r = call.ExecuteReader(@"SELECT * FROM z_user", new());
         while (r.Read())
@@ -29,13 +18,13 @@ public class UserSqlDao : IUserDao
         return rows;
     }
 
-    public UserRow? GetById(long userId)
+    public UserRow GetById(long userId)
     {
-        var call = new SqlDatabaseCall(_connection);
+        var call = new SqlDatabaseCall(connection);
 
         DbDataReader r = call.ExecuteReader(
             @"SELECT * FROM z_user WHERE user_id = @user_id",
-            new Dictionary<string, object> {
+            new() {
                 {"@user_id", userId},
             });
 
@@ -45,16 +34,16 @@ public class UserSqlDao : IUserDao
             return new UserRow(r);
         }
 
-        return null;
+        throw new Exception("User not found");
     }
 
-    public UserRow? GetByEmail(string email)
+    public UserRow GetByEmail(string email)
     {
-        var call = new SqlDatabaseCall(_connection);
+        var call = new SqlDatabaseCall(connection);
 
         DbDataReader r = call.ExecuteReader(
             @"SELECT * FROM z_user WHERE email = @email",
-            new Dictionary<string, object> {
+            new() {
                 {"@email", email},
             });
 
@@ -63,16 +52,16 @@ public class UserSqlDao : IUserDao
             return new UserRow(r);
         }
 
-        return null;
+        throw new Exception("User not found");
     }
 
-    public UserRow? GetByUsername(string username)
+    public UserRow GetByUsername(string username)
     {
-        var db = new SqlDatabaseCall(_connection);
+        var db = new SqlDatabaseCall(connection);
 
         var r = db.ExecuteReader(
             @"SELECT * FROM z_user WHERE username = @username",
-            new Dictionary<string, object> {
+            new() {
                 {"@username", username},
             });
 
@@ -81,43 +70,38 @@ public class UserSqlDao : IUserDao
             return new UserRow(r);
         }
 
-        return null;
+        throw new Exception("User not found");
     }
 
     public UserRow Insert(UserRow row)
     {
-        var call = new SqlDatabaseCall(_connection);
+        var call = new SqlDatabaseCall(connection);
 
-        try
-        {
-            var r = call.ExecuteScalar(
-                @"INSERT INTO z_user(username, email, password)
-                          VALUES (@username, @email, @password)
-                          RETURNING user_id",
-                new Dictionary<string, object>() {
-                    {"@username", row.Username},
-                    {"@email", row.Email},
-                    {"@password", row.Password},
-                }
-            );
-
-            if (r is not null)
-            {
-                row.UserId = (long)r;
-                return row;
+        var r = call.ExecuteScalar(
+            @"INSERT INTO z_user
+                     (username, email, password)
+                  VALUES 
+                     (@username, @email, @password)
+                  RETURNING user_id",
+            new() {
+                {"@username", row.Username},
+                {"@email", row.Email},
+                {"@password", row.Password},
             }
-        }
-        catch (SqliteException e)
+        );
+
+        if (r is not null)
         {
-            throw;
+            row.Id = (long)r;
+            return row;
         }
 
         throw new InvalidOperationException("Unable to insert new user");
     }
 
-    public UserRow? Update(UserRow row)
+    public UserRow Update(UserRow row)
     {
-        var call = new SqlDatabaseCall(_connection);
+        var call = new SqlDatabaseCall(connection);
 
         var r = call.ExecuteScalar(
             @"UPDATE z_user
@@ -127,7 +111,7 @@ public class UserSqlDao : IUserDao
                 password = @password
               WHERE user_id = @id
               RETURNING user_id",
-            new Dictionary<string, object>() {
+            new() {
                 {"@username", row.Username},
                 {"@email", row.Email},
                 {"@password", row.Password},
@@ -137,29 +121,22 @@ public class UserSqlDao : IUserDao
             return row;
         }
 
-        return null;
+        throw new InvalidOperationException("Unable to update user.");
     }
 
     public bool Delete(long userId)
     {
-        var db = new SqlDatabaseCall(_connection);
+        var db = new SqlDatabaseCall(connection);
 
-        string sql = @"
-            DELETE FROM z_user
-            WHERE user_id = @user_id
-            ";
-
-        Dictionary<string, object> ps = new Dictionary<string, object>() {
-            {"@user_id", userId},
-        };
-
-        if (db.ExecuteNonQuery(sql, ps) > 0)
+        int nrows = db.ExecuteNonQuery(@"DELETE FROM z_user WHERE user_id = @user_id", new() {
+                {"@user_id", userId},
+            });
+            
+        if (nrows > 0)
         {
             return true;
         }
 
         return false;
     }
-
-    private readonly DbConnection _connection;
 }

@@ -27,8 +27,8 @@ public static class IssueStatusMethods {
     }
 }
 
-public class IssueRow {
-    public long IssueId {get;set;}
+public class IssueRow : IIdentifialbeRow {
+    public long Id {get;set;}
     public long CreatorId {get;set;}
     public long RepositoryId {get;set;}
     public string Title {get;set;}
@@ -40,8 +40,8 @@ public class IssueRow {
     public IssueRow() {
     }
     
-    public IssueRow(long issueId, long repositoryId, long creatorId, string title, string description, IssueStatus status, DateTime createdAt, DateTime? closedAt = null) {
-        IssueId = issueId;
+    public IssueRow(long id, long repositoryId, long creatorId, string title, string description, IssueStatus status, DateTime createdAt, DateTime? closedAt = null) {
+        Id = id;
         CreatorId = creatorId;
         RepositoryId = repositoryId;
         Title = title;
@@ -52,7 +52,7 @@ public class IssueRow {
     }
 
     public IssueRow(DbDataReader reader) {
-        IssueId = reader.Get<long>("issue_id");
+        Id = reader.Get<long>("issue_id");
         CreatorId = reader.Get<long>("creator_id");
         RepositoryId = reader.Get<long>("repository_id");
         Title = reader.Get<string>("title");
@@ -63,6 +63,6 @@ public class IssueRow {
     }
     
     public override string ToString() {
-        return $"Issue( IssueId: {IssueId}, Title: {Title}, Description: {Description}, CreatorId: {CreatorId}, Status: {Status}, CreatedAt: {CreatedAt} )";
+        return $"Issue( IssueId: {Id}, Title: {Title}, Description: {Description}, CreatorId: {CreatorId}, Status: {Status}, CreatedAt: {CreatedAt} )";
     }
 }

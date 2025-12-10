@@ -2,7 +2,6 @@ using System.Data.Common;
 using Microsoft.Data.Sqlite;
 using MiniGitHub.Data.DAOs;
 using MiniGitHub.Data.DAOs.SqlDAOs;
-using MiniGitHub.Data.DataAccessObjects;
 
 namespace MiniGitHub.Data.DataConnector.SqlConnector;
 

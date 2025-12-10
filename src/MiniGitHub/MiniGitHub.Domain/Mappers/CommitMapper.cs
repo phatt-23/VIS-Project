@@ -6,7 +6,7 @@ namespace MiniGitHub.Domain.Mappers;
 public class CommitMapper : IMapper<CommitRow, Commit> {
     public CommitRow MapToRow(Commit model) {
         return new CommitRow() {
-            CommitId = model.CommitId,
+            Id = model.Id,
             RepositoryId = model.RepositoryId,
             Message = model.Message,
             CreatedAt = model.CreatedAt
@@ -14,6 +14,6 @@ public class CommitMapper : IMapper<CommitRow, Commit> {
     }
 
     public Commit MapFromRow(CommitRow row) {
-        return new Commit(row.CommitId, row.RepositoryId, row.Message, row.CreatedAt);
+        return new Commit(row.Id, row.RepositoryId, row.Message, row.CreatedAt);
     }
 }

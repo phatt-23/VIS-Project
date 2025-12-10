@@ -3,15 +3,13 @@ using MiniGitHub.Data.Rows;
 
 namespace MiniGitHub.Data.DAOs.TextDAOs;
 
-public class RepositoryTextDao : IRepositoryDao {
-    public RepositoryTextDao(string path) {
-        _path = path;
-    }
-
-    public RepositoryRow? GetById(long repoId) {
-        var repos = GetAll().Where(r => r.RepositoryId == repoId).ToList();
-        if (!repos.Any()) {
-            return null;
+public class RepositoryTextDao(string path) : IRepositoryDao {
+    
+    public RepositoryRow GetById(long repoId) {
+        var repos = GetAll().Where(r => r.Id == repoId).ToList();
+        
+        if (repos.Count == 0) {
+            throw new Exception($"Repository with id {repoId} not found");
         }
         
         return repos.Single();
@@ -23,30 +21,28 @@ public class RepositoryTextDao : IRepositoryDao {
     }
 
     public List<RepositoryRow> GetAll() {
-        var repos = JsonSerializer.Deserialize<List<RepositoryRow>>(File.ReadAllText(_path));
+        var repos = JsonSerializer.Deserialize<List<RepositoryRow>>(File.ReadAllText(path));
+        
         if (repos == null) {
-            throw new Exception(
-                    "Getting all repositories failed. There should be at least an empty array");
+            throw new Exception("Getting all repositories failed. There should be at least an empty array");
         }
 
         return repos;
     }
 
     public RepositoryRow Insert(RepositoryRow row) {
-        var repos = GetAll();
-
-        row.RepositoryId = repos.Count;
-        repos.Add(row);
-        
-        string serialized = JsonSerializer.Serialize(repos);
-        File.WriteAllText(_path, serialized);
-        return row; 
+        var entries = GetAll();
+        row.Id = entries.MaxBy(u => u.Id)?.Id + 1 ?? 0;
+        entries.Add(row);
+        string serialized = JsonSerializer.Serialize(entries);
+        File.WriteAllText(path, serialized);
+        return row;
     }
 
     public bool Delete(long repoId) {
         var repos = GetAll();
         
-        var repo = repos.SingleOrDefault(r => r.RepositoryId == repoId);
+        var repo = repos.SingleOrDefault(r => r.Id == repoId);
         if (repo == null) {
             return false;
         }
@@ -54,14 +50,19 @@ public class RepositoryTextDao : IRepositoryDao {
         repos.Remove(repo);
         
         string serialized = JsonSerializer.Serialize(repos);
-        File.WriteAllText(_path, serialized);
+        File.WriteAllText(path, serialized);
 
         return true;
     }
 
-    public RepositoryRow? Update(RepositoryRow repo) {
-        throw new NotImplementedException();    
+    public RepositoryRow Update(RepositoryRow repo) {
+        var repos = GetAll();
+        int index = repos.FindIndex(r => r.Id == repo.Id);
+        repos[index] = repo;
+        
+        string serialized = JsonSerializer.Serialize(repos);
+        File.WriteAllText(path, serialized);
+        
+        return repo;
     }
-    
-    private readonly string _path;
 }

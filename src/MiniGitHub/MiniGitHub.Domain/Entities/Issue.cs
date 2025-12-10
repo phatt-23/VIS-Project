@@ -7,8 +7,8 @@ public enum IssueStatus {
     Closed,
 }
 
-public class Issue {
-    public long IssueId {get;set;}
+public class Issue : IIdentifiableObject {
+    public long Id {get;set;}
     public long RepositoryId {get;set;}
     public long CreatorId {get;set;}
     public string Title {get;set;}
@@ -24,13 +24,13 @@ public class Issue {
     public Issue() {
     }
    
-    public Issue(long issueId, long repositoryId, long creatorId, string title, string description, IssueStatus status) 
-        :this(issueId, repositoryId, creatorId, title, description, status, DateTime.Now) {
+    public Issue(long id, long repositoryId, long creatorId, string title, string description, IssueStatus status) 
+        :this(id, repositoryId, creatorId, title, description, status, DateTime.Now) {
     }
     
     
-    public Issue(long issueId, long repositoryId, long creatorId, string title, string description, IssueStatus status, DateTime createdAt, DateTime? closedAt = null) {
-        IssueId = issueId;
+    public Issue(long id, long repositoryId, long creatorId, string title, string description, IssueStatus status, DateTime createdAt, DateTime? closedAt = null) {
+        Id = id;
         RepositoryId = repositoryId;
         CreatorId = creatorId;
         Title = title;

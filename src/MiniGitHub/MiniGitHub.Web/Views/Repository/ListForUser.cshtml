@@ -6,7 +6,7 @@
     ViewBag.Title = "User Repos";
     Layout = "_Layout";
 
-    bool isOwner = User.TryGetUserId() == Model.User.UserId;
+    bool isOwner = User.TryGetUserId() == Model.User.Id;
 }
 
 <div class="row mb-4">
@@ -69,7 +69,7 @@ else {
     <div class="container">
       
       <h5>
-        <a asp-controller="Repository" asp-action="Detail" asp-route-id="@repo.RepositoryId" class="text-decoration-none me-2">
+        <a asp-controller="Repository" asp-action="Detail" asp-route-id="@repo.Id" class="text-decoration-none me-2">
           @repo.Owner.Username
         </a>
         @if (repo.IsPublic) {
@@ -86,7 +86,7 @@ else {
         <div class="text-muted small">
           @repo.OpenIssues.Count open
 
-          <a asp-controller="Issue" asp-action="List" asp-route-repoId="@repo.RepositoryId">@(repo.OpenIssues.Count == 1 ? "issue" : "issues")</a>
+          <a asp-controller="Issue" asp-action="List" asp-route-repoId="@repo.Id">@(repo.OpenIssues.Count == 1 ? "issue" : "issues")</a>
 
           &bull;
 
@@ -95,7 +95,7 @@ else {
           }
 
           @if (lastCommit != null) {
-            <span>last <a asp-controller="Commit" asp-action="Detail" asp-route-id="@lastCommit.CommitId">commited</a> @lastCommit.CreatedAt</span>
+            <span>last <a asp-controller="Commit" asp-action="Detail" asp-route-id="@lastCommit.Id">commited</a> @lastCommit.CreatedAt</span>
           }
           else {
             <span>created @repo.CreatedAt</span>

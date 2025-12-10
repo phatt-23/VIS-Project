@@ -27,7 +27,7 @@ internal abstract class Program {
 
         // remove all repos and users
         foreach (var repo in repoDao.GetAll()) {
-            repoDao.Delete(repo.RepositoryId);
+            repoDao.Delete(repo.Id);
         }
 
         foreach (var user in userDao.GetAll()) {
@@ -115,7 +115,7 @@ internal abstract class Program {
 
         // remove all repos and users
         foreach (var repo in repoDao.GetAll()) {
-            repoDao.Delete(repo.RepositoryId);
+            repoDao.Delete(repo.Id);
         }
 
         foreach (var user in userDao.GetAll()) {
@@ -191,7 +191,7 @@ internal abstract class Program {
 
         // remove all repos and users
         foreach (var repo in repoDao.GetAll()) {
-            repoDao.Delete(repo.RepositoryId);
+            repoDao.Delete(repo.Id);
         }
 
         foreach (var user in userDao.GetAll()) {

@@ -8,7 +8,7 @@
 }
 
 
-<h2>Commit for @Model.Repository.Name</h2>
+<h2>Commit for <a asp-controller="Repository" asp-action="Detail" asp-route-id="@Model.Repository.Id">@Model.Repository.Name</a></h2>
  
 <p class="lead">
   Commited on <em>@Model.CreatedAt</em> 
@@ -25,7 +25,7 @@
           data-bs-target="#file-content-@(index)">
           @file.Path
         </a>
-        <span class="text-muted">@file.SizeInKB KB <small>(@file.SizeInBytes bytes)</small></span>
+        <span class="text-muted">@file.SizeInKb KB <small>(@file.SizeInBytes bytes)</small></span>
       </span>
       <div class="collapse mt-2" id="file-content-@(index)">
         <div class="card card-body"><pre><code class="language-@(file.Extension)">@file.Content</code></pre></div>

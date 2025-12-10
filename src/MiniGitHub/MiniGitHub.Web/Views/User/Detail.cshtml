@@ -5,7 +5,7 @@
 @{
     ViewBag.Title = Model.Username;
     Layout = "_Layout";
-    bool isOwner = User.GetUserId() == Model.UserId;
+    bool isOwner = User.GetUserId() == Model.Id;
 }
 
 <div class="d-flex align-items-center">
@@ -22,7 +22,7 @@
 <p>Email: @Model.Email</p>
 
 <h2 class="mb-4">
-    <a asp-action="ListForUser" asp-controller="Repository" asp-route-userId="@Model.UserId" class="text-decoration-none">
+    <a asp-action="ListForUser" asp-controller="Repository" asp-route-userId="@Model.Id" class="text-decoration-none">
         Repositories
     </a>
 </h2>
@@ -41,7 +41,7 @@
                                 <h5 class="card-title mb-0">
                                     <a asp-action="Detail" 
                                        asp-controller="Repository" 
-                                       asp-route-id="@repo.RepositoryId" 
+                                       asp-route-id="@repo.Id" 
                                        class="text-decoration-none">
                                         @repo.Name
                                     </a>

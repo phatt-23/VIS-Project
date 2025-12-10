@@ -4,17 +4,14 @@ using MiniGitHub.Data.Rows;
 
 namespace MiniGitHub.Data.DAOs.SqlDAOs;
 
-public class CommitSqlDao : ICommitDao {
-    public CommitSqlDao(DbConnection connection) {
-        _connection = connection;
-    }
+public class CommitSqlDao(DbConnection connection) : ICommitDao {
     
-    public CommitRow? GetById(long commitId) {
-        var db = new SqlDatabaseCall(_connection);
+    public CommitRow GetById(long commitId) {
+        var db = new SqlDatabaseCall(connection);
         
         DbDataReader r = db.ExecuteReader(
             @"SELECT * FROM z_commit WHERE commit_id = @commit_id",
-            new Dictionary<string, object>() {
+            new(){
                 {"@commit_id", commitId},
             });
 
@@ -22,11 +19,11 @@ public class CommitSqlDao : ICommitDao {
             return new CommitRow(r);
         }
 
-        return null;
+        throw new Exception("Commit not found");
     }
 
     public List<CommitRow> GetAll() {
-        var db = new SqlDatabaseCall(_connection);
+        var db = new SqlDatabaseCall(connection);
         
         DbDataReader reader = db.ExecuteReader(@"SELECT * FROM z_commit", new());
         
@@ -38,12 +35,12 @@ public class CommitSqlDao : ICommitDao {
         return commits;
     }
 
-    public List<CommitRow> GetByRepositoryId(long repoId) {
-        var call = new SqlDatabaseCall(_connection);
+    public List<CommitRow> GetByRepoId(long repoId) {
+        var call = new SqlDatabaseCall(connection);
         
         DbDataReader reader = call.ExecuteReader(
             @"SELECT * FROM z_commit WHERE repository_id = @repository_id",
-            new Dictionary<string, object>() {
+            new() {
                 {"@repository_id", repoId},
             });
 
@@ -56,7 +53,7 @@ public class CommitSqlDao : ICommitDao {
     }
 
     public CommitRow Insert(CommitRow row) {
-        var db = new SqlDatabaseCall(_connection);
+        var db = new SqlDatabaseCall(connection);
         var id = db.ExecuteScalar(
             @"INSERT INTO z_commit(message, repository_id, created_at) 
               VALUES (@message, @repository_id, @created_at) 
@@ -68,7 +65,7 @@ public class CommitSqlDao : ICommitDao {
             });
 
         if (id is not null) {
-            row.CommitId = (long)id;
+            row.Id = (long)id;
             return row;
         }
         
@@ -76,7 +73,7 @@ public class CommitSqlDao : ICommitDao {
     }
 
     public CommitRow Update(CommitRow row) {
-        var db = new SqlDatabaseCall(_connection);
+        var db = new SqlDatabaseCall(connection);
         var id = db.ExecuteScalar(
             @"UPDATE z_commit 
               SET 
@@ -98,20 +95,18 @@ public class CommitSqlDao : ICommitDao {
     }
 
     public bool Delete(long commitId) {
-        var db = new SqlDatabaseCall(_connection);
+        var db = new SqlDatabaseCall(connection);
+
+        int nrows = db.ExecuteNonQuery(
+            @"DELETE FROM z_commit WHERE commit_id = @commit_id", 
+            new() {
+                {"@commit_id", commitId},
+            });
             
-        string sql = @"DELETE FROM z_commit WHERE commit_id = @commit_id";
-            
-        Dictionary<string, object> ps = new Dictionary<string, object>() {
-            {"@commit_id", commitId},
-        };
-            
-        if (db.ExecuteNonQuery(sql, ps) > 0) {
+        if (nrows > 0) {
             return true;
         }
             
         return false; 
     }
-
-    private readonly DbConnection _connection;
 }

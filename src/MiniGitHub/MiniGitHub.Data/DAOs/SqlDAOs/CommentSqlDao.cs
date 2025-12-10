@@ -12,7 +12,7 @@ file struct Sql {
 }
 
 public class CommentSqlDao(DbConnection connection) : ICommentDao {
-    public CommentRow? GetById(long commentId) {
+    public CommentRow GetById(long commentId) {
         SqlDatabaseCall call = new SqlDatabaseCall(connection);
 
         DbDataReader reader = call.ExecuteReader(Sql.GetById, new() {
@@ -23,7 +23,7 @@ public class CommentSqlDao(DbConnection connection) : ICommentDao {
             return new CommentRow(reader);
         }
 
-        return null;
+        throw new Exception("Comment not found");
     }
 
     public List<CommentRow> GetAll() {
@@ -53,7 +53,7 @@ public class CommentSqlDao(DbConnection connection) : ICommentDao {
             throw new InvalidOperationException("Unable to insert new comment.");
         }
 
-        row.CommentId = (long)rowId;
+        row.Id = (long)rowId;
         return row;
     }
 
@@ -62,7 +62,7 @@ public class CommentSqlDao(DbConnection connection) : ICommentDao {
         
         int nrows = call.ExecuteNonQuery(Sql.Update, new() {
             {"@content", row.Content},
-            {"@comment_id", row.CommentId},
+            {"@comment_id", row.Id},
         });
 
         if (nrows <= 0) {

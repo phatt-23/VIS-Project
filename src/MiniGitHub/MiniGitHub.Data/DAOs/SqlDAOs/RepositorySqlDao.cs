@@ -3,16 +3,13 @@ using MiniGitHub.Data.Rows;
 
 namespace MiniGitHub.Data.DAOs.SqlDAOs;
 
-public class RepositorySqlDao : IRepositoryDao {
-    public RepositorySqlDao(DbConnection connection) {
-        _connection = connection;
-    }
-
-    public RepositoryRow? GetById(long repoId) {
-        var db = new SqlDatabaseCall(_connection);
+public class RepositorySqlDao(DbConnection connection) : IRepositoryDao {
+    
+    public RepositoryRow GetById(long repoId) {
+        var db = new SqlDatabaseCall(connection);
         
         DbDataReader r = db.ExecuteReader(@"SELECT * FROM z_repository WHERE repository_id = @repository_id",
-            new Dictionary<string, object>() {
+            new() {
                 {"@repository_id", repoId},
             });
 
@@ -20,27 +17,11 @@ public class RepositorySqlDao : IRepositoryDao {
             return new RepositoryRow(r);
         }
 
-        return null;
-    }
-
-    public List<RepositoryRow> GetByUserId(long userId) {
-        var rows = new List<RepositoryRow>();
-
-        var db = new SqlDatabaseCall(_connection);
-        var r = db.ExecuteReader(@"SELECT r.* FROM z_repository r WHERE r.owner_id = @owner_id",
-            new Dictionary<string, object>() {
-                {"@owner_id", userId},
-            });
-        
-        while (r.Read()) {
-            rows.Add(new RepositoryRow(r));
-        }
-
-        return rows;
+        throw new Exception("Repository not found");
     }
 
     public List<RepositoryRow> GetAll() {
-        var db = new SqlDatabaseCall(_connection);
+        var db = new SqlDatabaseCall(connection);
         var r = db.ExecuteReader(@"SELECT * FROM z_repository", new());
         
         var rows = new List<RepositoryRow>();
@@ -52,13 +33,16 @@ public class RepositorySqlDao : IRepositoryDao {
     }
 
     public RepositoryRow Insert(RepositoryRow row) {
-        var db = new SqlDatabaseCall(_connection);
+        var db = new SqlDatabaseCall(connection);
         
-        var r = db.ExecuteScalar(
-            @"INSERT INTO z_repository(owner_id, name, description, is_public, created_at) 
-                  VALUES (@owner_id, @name, @description, @is_public, @created_at) 
-                  RETURNING repository_id",
-            new Dictionary<string, object>() {
+        var r = db.ExecuteScalar(@"
+            INSERT INTO z_repository
+                (owner_id, name, description, is_public, created_at) 
+            VALUES 
+                (@owner_id, @name, @description, @is_public, @created_at) 
+            RETURNING repository_id",
+            
+            new() {
                 {"@owner_id", row.OwnerId},
                 {"@name", row.Name},
                 {"@description", row.Description},
@@ -68,7 +52,7 @@ public class RepositorySqlDao : IRepositoryDao {
         );
 
         if (r is not null) {
-            row.RepositoryId = (long)r;
+            row.Id = (long)r;
             return row;
         }
 
@@ -76,41 +60,59 @@ public class RepositorySqlDao : IRepositoryDao {
     }
 
     public bool Delete(long repoId) {
-        var db = new SqlDatabaseCall(_connection);
-        
-        string sql = @"
+        var db = new SqlDatabaseCall(connection);
+
+        int nrows = db.ExecuteNonQuery(@"
              DELETE FROM z_repository 
-             WHERE repository_id = @repository_id
-             ";
+             WHERE repository_id = @repository_id", 
+            new() {
+                {"@repository_id", repoId},
+            });
         
-        Dictionary<string, object> ps = new Dictionary<string, object>() {
-            {"@repository_id", repoId},
-        };
-        
-        if (db.ExecuteNonQuery(sql, ps) > 0) {
+        if (nrows > 0) {
             return true;
         }
         
         return false; 
     }
 
-    public RepositoryRow? Update(RepositoryRow repo) {
-        var db = new SqlDatabaseCall(_connection);
+    public RepositoryRow Update(RepositoryRow repo) {
+        var db = new SqlDatabaseCall(connection);
 
-        string sql = @"UPDATE z_repository SET name=@name, description=@description, is_public=@is_public WHERE repository_id=@repository_id";
-        Dictionary<string, object> ps = new () {
-            {"@repository_id", repo.RepositoryId},
-            {"@name", repo.Name},
-            {"@description", repo.Description},
-            {"@is_public", repo.IsPublic}
-        };
+        int nrows = db.ExecuteNonQuery(@"
+            UPDATE z_repository 
+            SET 
+                name=@name, 
+                description=@description, 
+                is_public=@is_public 
+            WHERE repository_id=@repository_id",
+            new() {
+                {"@repository_id", repo.Id},
+                {"@name", repo.Name},
+                {"@description", repo.Description},
+                {"@is_public", repo.IsPublic}
+            });
         
-        if (db.ExecuteNonQuery(sql, ps) > 0) {
+        if (nrows > 0) {
             return repo;
         }
         
-        return null;
+        throw new InvalidOperationException("Unable to update repository.");
     }
+    
+    public List<RepositoryRow> GetByUserId(long userId) {
+        var rows = new List<RepositoryRow>();
 
-    private readonly DbConnection _connection;
+        var db = new SqlDatabaseCall(connection);
+        var r = db.ExecuteReader(@"SELECT r.* FROM z_repository r WHERE r.owner_id = @owner_id",
+            new() {
+                {"@owner_id", userId},
+            });
+        
+        while (r.Read()) {
+            rows.Add(new RepositoryRow(r));
+        }
+
+        return rows;
+    }
 }

@@ -1,51 +1,54 @@
 using MiniGitHub.Data.DAOs;
 using MiniGitHub.Data.DAOs.TextDAOs;
-using MiniGitHub.Data.DataAccessObjects;
-using MiniGitHub.Data.DataAccessObjects.TextDAOs;
 
 namespace MiniGitHub.Data.DataConnector;
 
 public class TextDataConnector : IDataConnector {
 
     public IUserDao CreateUserDao() {
-        string path = _directoryPath + _userTextFile;
-        return new UserTextDao(path);
+        return new UserTextDao(DirectoryPath + Filename.User);
     }
 
     public IRepositoryDao CreateRepositoryDao() {
-        string path = _directoryPath + _repositoryTextFile;
-        return new RepositoryTextDao(path);
+        return new RepositoryTextDao(DirectoryPath + Filename.Repo);
     }
 
     public ICommitDao CreateCommitDao() {
-        throw new NotImplementedException();
+        return new CommitTextDao(DirectoryPath + Filename.Commit);
     }
 
     public IFileDao CreateFileDao() {
-        throw new NotImplementedException(); 
+        return new FileTextDao(DirectoryPath + Filename.File);
     }
 
     public IIssueDao CreateIssueDao() {
-        throw new NotImplementedException();
+        return new IssueTextDao(DirectoryPath + Filename.Issue);
     }
 
     public ICommentDao CreateCommentDao() {
-        throw new NotImplementedException();
+        return new CommentTextDao(DirectoryPath + Filename.Comment);
     }
 
     public void BeginTransaction() {
-        throw new NotImplementedException();
+        return;
     }
 
     public void CommitTransaction() {
-        throw new NotImplementedException();
+        return;
     }
 
     public void RollbackTransaction() {
-        throw new NotImplementedException();
+        return;
     }
 
-    private readonly string _directoryPath = GlobalConfig.GetTextFilePath();
-    private const string _userTextFile = "user.txt";
-    private const string _repositoryTextFile = "repository.txt";
+    private static readonly string DirectoryPath = GlobalConfig.GetTextFilePath();
+
+    private struct Filename {
+        public const string User = "user.json";
+        public const string Repo = "repository.json";
+        public const string Comment = "comment.json";
+        public const string Commit = "commit.json";
+        public const string File = "file.json";
+        public const string Issue = "issue.json";
+    }
 }

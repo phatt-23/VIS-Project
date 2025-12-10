@@ -5,13 +5,10 @@ using MiniGitHub.Data.Rows;
 
 namespace MiniGitHub.Data.DAOs.SqlDAOs;
 
-public class FileSqlDao : IFileDao {
-    public FileSqlDao(DbConnection connection) {
-        _connection = connection;
-    }
-
-    public FileRow? GetById(long fileId) {
-        var call = new SqlDatabaseCall(_connection);
+public class FileSqlDao(DbConnection connection) : IFileDao {
+    
+    public FileRow GetById(long fileId) {
+        var call = new SqlDatabaseCall(connection);
         DbDataReader reader = call.ExecuteReader(
             "SELECT * FROM z_file WHERE file_id = @file_id",
             new() {
@@ -22,11 +19,11 @@ public class FileSqlDao : IFileDao {
             return new FileRow(reader);
         }
 
-        return null;
+        throw new Exception("File not found");
     }
 
     public List<FileRow> GetAll() {
-        var call = new SqlDatabaseCall(_connection);
+        var call = new SqlDatabaseCall(connection);
         DbDataReader reader = call.ExecuteReader("SELECT * FROM z_file", new());
 
         var files = new List<FileRow>();
@@ -38,31 +35,40 @@ public class FileSqlDao : IFileDao {
     }
 
     public FileRow Insert(FileRow row) {
-        var call = new SqlDatabaseCall(_connection);
-        var id = call.ExecuteScalar(
-            @"INSERT INTO z_file(commit_id, path, content) 
-              VALUES (@commit_id, @path, @content) 
-              RETURNING file_id", 
+        var call = new SqlDatabaseCall(connection);
+        var id = call.ExecuteScalar(@"
+                INSERT INTO z_file
+                    (commit_id, path, content) 
+                VALUES 
+                    (@commit_id, @path, @content) 
+                RETURNING file_id", 
+            
             new() {
                 {"@commit_id", row.CommitId}, 
                 {"@path", row.Path}, 
                 {"@content", row.Content}
             });
 
-        if (id is not null) {
-            row.FileId = (long)id;
+        if (id != null) {
+            row.Id = (long)id;
             return row;
         }
 
         throw new InvalidOperationException("Unable to insert new file.");
     }
 
-    public FileRow? Update(FileRow row) {
-        SqlDatabaseCall call = new SqlDatabaseCall(_connection);
+    public FileRow Update(FileRow row) {
+        SqlDatabaseCall call = new SqlDatabaseCall(connection);
 
-        string sql = @"UPDATE z_file SET path = @path, content = @content WHERE file_id = @file_id;";
-        int nrows = call.ExecuteNonQuery(sql, new Dictionary<string, object>() {
-            {"@file_id", row.FileId}, 
+        int nrows = call.ExecuteNonQuery(@"
+            UPDATE z_file 
+            SET 
+                path = @path, 
+                content = @content 
+            WHERE file_id = @file_id;", 
+            
+            new() {
+            {"@file_id", row.Id}, 
             {"@path", row.Path}, 
             {"@content", row.Content}
         });
@@ -75,12 +81,15 @@ public class FileSqlDao : IFileDao {
     }
 
     public bool Delete(long fileId) {
-        SqlDatabaseCall call = new SqlDatabaseCall(_connection);
+        SqlDatabaseCall call = new SqlDatabaseCall(connection);
 
-        string sql = @"DELETE FROM z_file WHERE file_id = @file_id";
-        int nrows = call.ExecuteNonQuery(sql, new Dictionary<string, object>() {
-            {"@file_id", fileId}, 
-        });
+        int nrows = call.ExecuteNonQuery(@"
+            DELETE FROM z_file 
+            WHERE file_id = @file_id", 
+            
+            new() {
+                {"@file_id", fileId}, 
+            });
 
         if (nrows > 0) {
             return true;
@@ -90,13 +99,16 @@ public class FileSqlDao : IFileDao {
     }
 
     public List<FileRow> GetByCommitId(long commitId) {
-        SqlDatabaseCall call = new SqlDatabaseCall(_connection);
+        SqlDatabaseCall call = new SqlDatabaseCall(connection);
 
-        const string sql = @"SELECT * FROM z_file WHERE commit_id = @commit_id";
-        var ps = new Dictionary<string, object>() {
-            {"@commit_id", commitId},
-        };
-        DbDataReader reader = call.ExecuteReader(sql, ps);
+        DbDataReader reader = call.ExecuteReader(@"
+            SELECT * 
+            FROM z_file 
+            WHERE commit_id = @commit_id", 
+            
+            new() {
+                {"@commit_id", commitId},
+            });
 
         List<FileRow> rows = new List<FileRow>();
         while (reader.Read()) {
@@ -105,6 +117,4 @@ public class FileSqlDao : IFileDao {
 
         return rows;         
     }
-
-    private readonly DbConnection _connection;
 }

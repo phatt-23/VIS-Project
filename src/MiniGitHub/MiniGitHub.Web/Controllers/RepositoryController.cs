@@ -35,12 +35,12 @@ public class RepositoryController(
             return Unauthorized("Repository is private");
         }
 
-        List<File> latestFiles = fileService.GetLatestCommittedFiles(repo.RepositoryId);
-        List<Commit> commits = commitService.GetCommitsForRepo(repo.RepositoryId);
-        List<Issue> issues = issueService.GetIssuesForRepo(repo.RepositoryId);
+        List<File> latestFiles = fileService.GetLatestCommittedFiles(repo.Id);
+        List<Commit> commits = commitService.GetCommitsForRepo(repo.Id);
+        List<Issue> issues = issueService.GetIssuesForRepo(repo.Id);
         
         issues.ForEach(i => {
-            List<Comment> comments = commentService.GetCommentsForIssue(i.IssueId);
+            List<Comment> comments = commentService.GetCommentsForIssue(i.Id);
             User creator = userService.GetUserById(i.CreatorId)!;
             i.Comments = comments;
             i.Creator = creator;
@@ -85,7 +85,7 @@ public class RepositoryController(
 
         repo = repoService.AddRepo(repo);
         
-        return RedirectToAction("Detail", new {id = repo.RepositoryId});
+        return RedirectToAction("Detail", new {id = repo.Id});
     }
 
     [HttpGet]
@@ -102,7 +102,7 @@ public class RepositoryController(
         }
 
         RemoveRepoDTO dto = new RemoveRepoDTO() {
-            RepositoryId = repo.RepositoryId,
+            RepositoryId = repo.Id,
             Name = repo.Name,
             Description = repo.Description,
         };
@@ -147,7 +147,7 @@ public class RepositoryController(
         }
 
         EditRepoDTO dto = new EditRepoDTO() {
-            RepositoryId = repo.RepositoryId,
+            RepositoryId = repo.Id,
             Name = repo.Name,
             Description = repo.Description,
             IsPublic = repo.IsPublic,
@@ -178,7 +178,7 @@ public class RepositoryController(
 
         repo = repoService.UpdateRepo(repo);
         
-        return RedirectToAction("Detail", new {id = repo!.RepositoryId});
+        return RedirectToAction("Detail", new {id = repo!.Id});
     }
 
     [HttpGet]

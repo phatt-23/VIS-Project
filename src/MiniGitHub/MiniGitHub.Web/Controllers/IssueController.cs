@@ -21,11 +21,11 @@ public class IssueController(
             return NotFound();
         }
 
-        List<Issue> issues = issueService.GetIssuesForRepo(repo.RepositoryId);
+        List<Issue> issues = issueService.GetIssuesForRepo(repo.Id);
 
         foreach (Issue issue in issues) {
             issue.Creator = userService.GetUserById(issue.CreatorId)!;
-            issue.Comments = commentService.GetCommentsForIssue(issue.IssueId);
+            issue.Comments = commentService.GetCommentsForIssue(issue.Id);
         }
         
         IssueListViewModel model = new IssueListViewModel() {
@@ -43,8 +43,9 @@ public class IssueController(
             return NotFound();
         }
         
-        issue.Comments = commentService.GetCommentsForIssue(issue.IssueId);
+        issue.Comments = commentService.GetCommentsForIssue(issue.Id);
         issue.Creator = userService.GetUserById(issue.CreatorId)!;
+        issue.Repository = repoService.GetRepoWithOwner(issue.RepositoryId)!;
 
         foreach (Comment comment in issue.Comments) {
             comment.Author = userService.GetUserById(comment.AuthorId)!;
@@ -53,7 +54,7 @@ public class IssueController(
         IssueDetailViewModel model = new IssueDetailViewModel() {
             Issue = issue,
             AddCommentForm = new CommentAddDTO() {
-                IssueId = issue.IssueId, 
+                IssueId = issue.Id, 
             }
         };
         
@@ -71,12 +72,17 @@ public class IssueController(
         if (User.TryGetUserId() != repo.OwnerId) {
             return Forbid();
         }
-        
-        IssueAddDTO dto = new IssueAddDTO() {
-            RepositoryId = repoId,
+
+        repo.Owner = userService.GetUserById(repo.OwnerId)!;
+
+        IssueAddVM model = new IssueAddVM() {
+            Repo = repo,
+            Form = new IssueAddDTO() {
+                RepositoryId = repoId,
+            },
         };
         
-        return View(dto);
+        return View(model);
     }
     
     [HttpPost]
@@ -91,11 +97,7 @@ public class IssueController(
             return NotFound("Repository not found");
         }
 
-        if (User.TryGetUserId() != repo.OwnerId) {
-            return Forbid();
-        }
-
-        Issue issue = new Issue(-1, repo.RepositoryId, User.GetUserId(), dto.Title, dto.Description, IssueStatus.Open); 
+        Issue issue = new Issue(-1, repo.Id, User.GetUserId(), dto.Title, dto.Description, IssueStatus.Open); 
         
         issue = issueService.AddIssue(issue);
         

@@ -33,8 +33,8 @@ public class CommentController(
         }
         
         Comment comment = new Comment() {
-            CommentId = -1,
-            IssueId = issue.IssueId,
+            Id = -1,
+            IssueId = issue.Id,
             AuthorId = userId,
             Content = dto.Content,
             CreatedAt = DateTime.Now,
@@ -47,7 +47,7 @@ public class CommentController(
                     commentService.Add(comment);
                     break;
                 case "close":
-                    if (!issueService.CloseIssue(issue.IssueId)) {
+                    if (!issueService.CloseIssue(issue.Id)) {
                         return Forbid("Unable to close issue.");
                     }
                     commentService.Add(comment);

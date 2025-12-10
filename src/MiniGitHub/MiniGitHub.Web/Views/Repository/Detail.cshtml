@@ -6,7 +6,7 @@
 @{
     ViewBag.Title = Model.Owner.Username + "/" + Model.Repo.Name;
     Layout = "_Layout";
-    bool isOwner = User.GetUserId() == Model.Owner.UserId;
+    bool isOwner = User.GetUserId() == Model.Owner.Id;
 }
 
 <div class="row">
@@ -32,19 +32,17 @@
             </span>
 
             @if (isOwner) {
-                <a asp-action="Add" asp-controller="Commit" asp-route-repoId="@Model.Repo.RepositoryId">Add Commit</a>
-
                 <div class="d-flex gap-2">
                     <a asp-action="Edit"
                        asp-controller="Repository"
-                       asp-route-id="@Model.Repo.RepositoryId"
+                       asp-route-id="@Model.Repo.Id"
                        class="btn btn-outline-secondary text-nowrap">
                         Edit repository
                     </a>
 
                     <a asp-action="Remove"
                        asp-controller="Repository"
-                       asp-route-id="@Model.Repo.RepositoryId"
+                       asp-route-id="@Model.Repo.Id"
                        class="btn btn-outline-danger text-nowrap">
                         Remove repository
                     </a>
@@ -75,7 +73,7 @@
                                     <span class="col-sm-3">
                                         <a asp-action="Detail"
                                            asp-controller="Commit"
-                                           asp-route-id="@file.Commit.CommitId"
+                                           asp-route-id="@file.Commit.Id"
                                            class="text-decoration-none">
                                             @file.Commit.Message
                                         </a>
@@ -105,34 +103,34 @@
             <div class="card-header d-flex justify-content-between align-items-center text-align-center">
 
                 <div class="my-auto">
-                    <a asp-action="List" asp-controller="Issue" asp-route-repoId="@Model.Repo.RepositoryId" class="text-decoration-none">
+                    <a asp-action="List" asp-controller="Issue" asp-route-repoId="@Model.Repo.Id" class="text-decoration-none">
                         Issues <span class="badge rounded-pill text-bg-warning">@Model.Issues.Count()</span>
                     </a>
                     <br>
                     <small>Most recent open issues</small>
                 </div>
                 @if (User.IsAuthenticated()) {
-                    <a class="btn btn-sm btn-primary" asp-controller="Issue" asp-action="Add" asp-route-repoId="@Model.Repo.RepositoryId">
+                    <a class="btn btn-sm btn-primary" asp-controller="Issue" asp-action="Add" asp-route-repoId="@Model.Repo.Id">
                         Open issue
                     </a>
                 }
             </div>
             <div class="card-body p-0">
-                @if (!Model.Issues.Any()) {
-                    <li class="list-group-item my-1">No issues yet</li>
-                }
-                else {
-                    <ul class="list-group list-group-flush">
+                <ul class="list-group list-group-flush">
+                    @if (!Model.Issues.Any()) {
+                        <li class="list-group-item my-1">No issues yet</li>
+                    }
+                    else {
                         @foreach (Issue issue in Model.Issues) {
                             <li class="list-group-item">
-                                <a asp-controller="Issue" asp-action="Detail" asp-route-id="@issue.IssueId" class="text-decoration-none">
+                                <a asp-controller="Issue" asp-action="Detail" asp-route-id="@issue.Id" class="text-decoration-none">
                                     @issue.Title
                                     <p class="text-muted m-0">@issue.Creator.Username</p>
                                 </a>
                             </li>
                         }
-                    </ul>
-                }
+                    }
+                </ul>
             </div>
         </div>
 
@@ -140,7 +138,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center text-align-center">
                 <div class="my-auto">
-                    <a asp-controller="Commit" asp-action="List" asp-route-repoId="@Model.Repo.RepositoryId"
+                    <a asp-controller="Commit" asp-action="List" asp-route-repoId="@Model.Repo.Id"
                        class="text-decoration-none">
                         Commits
                         <span class="badge rounded-pill bg-success">
@@ -153,7 +151,7 @@
                 @if (isOwner) {
                     <a asp-controller="Commit"
                        asp-action="Add"
-                       asp-route-repoId="@Model.Repo.RepositoryId"
+                       asp-route-repoId="@Model.Repo.Id"
                        class="btn btn-sm btn-primary">
                         Make a commit
                     </a>
@@ -169,7 +167,7 @@
                             <li class="list-group-item">
                                 <a asp-controller="Commit" 
                                    asp-action="Detail" 
-                                   asp-route-id="@commit.CommitId"
+                                   asp-route-id="@commit.Id"
                                    class="text-decoration-none">
                                     @commit.Message <p class="text-muted m-0">@commit.CreatedAt</p>
                                 </a>

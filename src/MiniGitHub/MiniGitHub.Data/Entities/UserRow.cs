@@ -1,10 +1,11 @@
 using System.Data.Common;
 using MiniGitHub.Data.DataConnector.SqlConnector.Extensions;
+using MiniGitHub.Data.Entities;
 
 namespace MiniGitHub.Data.Rows;
 
-public class UserRow {
-    public long UserId { get; set; }
+public class UserRow : IIdentifialbeRow {
+    public long Id { get; set; }
     public string Username { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
@@ -12,20 +13,20 @@ public class UserRow {
     public UserRow() {
     }
     
-    public UserRow(long userId, string username, string email, string password) { UserId = userId;
+    public UserRow(long id, string username, string email, string password) { Id = id;
         Username = username;
         Email = email;
         Password = password;
     }
 
     public UserRow(DbDataReader reader) {
-        UserId = reader.Get<long>("user_id"); 
+        Id = reader.Get<long>("user_id"); 
         Username = reader.Get<string>("username");
         Email = reader.Get<string>("email");
         Password = reader.Get<string>("password");
     }
     
     public override string ToString() {
-        return $"UserId: {UserId}, Username: {Username}, Email: {Email}, Password: {Password}";
+        return $"UserId: {Id}, Username: {Username}, Email: {Email}, Password: {Password}";
     }
 }

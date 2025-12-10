@@ -24,7 +24,7 @@ public class IssueMapper : IMapper<IssueRow, Issue> {
     
     public IssueRow MapToRow(Issue model) {
         IssueRow row = new IssueRow(
-            model.IssueId, 
+            model.Id, 
             model.RepositoryId, 
             model.CreatorId, 
             model.Title, 
@@ -38,7 +38,7 @@ public class IssueMapper : IMapper<IssueRow, Issue> {
 
     public Issue MapFromRow(IssueRow row) {
         Issue model = new Issue(
-            row.IssueId, 
+            row.Id, 
             row.RepositoryId, 
             row.CreatorId, 
             row.Title, 

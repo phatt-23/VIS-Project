@@ -32,7 +32,7 @@ public class AccountController(
 
     private async Task SetCookiesForUser(User user) {
         var claims = new List<Claim> {
-            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.Username),
             new Claim(ClaimTypes.Email, user.Email),
         };
@@ -108,7 +108,7 @@ public class AccountController(
             
             await SetCookiesForUser(user);
             
-            return RedirectToAction("Detail", "User", new {id = user.UserId});
+            return RedirectToAction("Detail", "User", new {id = user.Id});
         }
         catch (Exception e) {
             ModelState.AddModelError("Register", e.Message);

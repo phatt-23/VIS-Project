@@ -65,7 +65,7 @@ public class CommitController(
             });
             
             commit = commitService.AddCommit(commit, files);
-            return RedirectToAction("Detail", new {id = commit.CommitId});
+            return RedirectToAction("Detail", new {id = commit.Id});
         }
         catch {
             ModelState.AddModelError("Message", "Something went wrong");
@@ -97,7 +97,7 @@ public class CommitController(
         List<Commit> commits = commitService.GetCommitsForRepo(repoId);
 
         commits.ForEach(c => {
-            c.Files = fileService.GetByCommitId(c.CommitId);
+            c.Files = fileService.GetByCommitId(c.Id);
         });
 
         CommitListVM vm = new CommitListVM() {

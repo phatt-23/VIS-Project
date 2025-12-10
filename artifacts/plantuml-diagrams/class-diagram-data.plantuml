@@ -1,0 +1,207 @@
+@startuml
+/'hide circle'/
+/'skinparam classAttributeIconSize 0'/
+/'top to bottom direction'/
+left to right direction
+
+package DataLayer {
+    class GlobalConfig {
+        +string connectionString
+        +string textParentFolder
+    }
+
+    package Connnector {
+
+        interface IDisposable {
+            Open()
+            Dispose()
+        }
+
+
+        class IDataConnector extends IDisposable {
+            +IUserDao userDao
+            +IRepositoryDao repoDao
+            +IFileDao fileDao
+            +IIssueDao issueDao
+            +ICommitDao commitDao
+            +ICommentDao commentDao
+        }
+        
+        
+        class SqlDataConnector implements IDataConnector {
+            DbConnection connection
+        }
+        
+        class TextDataConnector implements IDataConnector {
+        }
+        
+        SqlDataConnector ..> GlobalConfig
+        TextDataConnector ..> GlobalConfig
+    }
+    
+
+    
+    package Entities {
+     
+        abstract class IdentifiableRow {
+            long Id
+        }
+     
+        class UserRow extends IdentifiableRow {
+            +string Username
+            +string Email
+            +string Password
+        }
+     
+        class RepositoryRow extends IdentifiableRow {
+            +string Name
+            +string Description
+            +bool IsPublic
+            +DateTime CreatedAt
+        }
+     
+        class FileRow extends IdentifiableRow {
+            long CommitId
+            string Path
+            string Content
+        }
+     
+        class IssueRow extends IdentifiableRow {
+            +long CreatorId 
+            +long RepositoryId 
+            +string Title
+            +string Description 
+            +IssueStatus Status
+            +DateTime CreatedAt
+            +DateTime? ClosedAt
+        }
+     
+        class CommitRow extends IdentifiableRow {
+            +long RepositoryId 
+            +string Message 
+            +DateTime CreatedAt
+        }
+     
+        class CommentRow extends IdentifiableRow {
+            +long IssueId 
+            +long AuthorId 
+            +string Content 
+            +DateTime CreatedAt
+        }
+    }
+    
+    package DAO {
+
+
+        interface IDao<T> {
+            GetById(id: long): T
+            GetAll(): List<T>
+            Insert(T t): T
+            Update(T t): T
+            Delete(id: long): T
+        }
+
+        
+        interface IUserDao extends IDao<UserRow> {
+        }
+        
+        interface IRepositoryDao extends IDao<RepositoryRow> {
+        }
+    
+        interface IFileDao extends IDao<FileRow> {
+        }
+     
+        interface IIssueDao extends IDao<IssueRow> {
+        }
+     
+        interface ICommitDao extends IDao<CommitRow> {
+        }
+     
+        interface ICommentDao extends IDao<CommentRow> {
+        }
+        
+        IUserDao --> UserRow
+        IRepositoryDao --> RepositoryRow
+        IFileDao --> FileRow
+        IIssueDao --> IssueRow
+        ICommitDao --> CommitRow
+        ICommentDao --> CommentRow
+        
+        folder SqlDAO {
+        
+            class UserSqlDao {
+            }
+            
+            class RepositorySqlDao {
+            }
+        
+            class FileSqlDao {
+            }
+         
+            class IssueSqlDao {
+            }
+         
+            class CommitSqlDao {
+            }
+         
+            class CommentSqlDao {
+            }
+            
+            UserSqlDao ..|> IUserDao
+            RepositorySqlDao ..|> IRepositoryDao
+            FileSqlDao ..|> IFileDao
+            IssueSqlDao ..|> IIssueDao
+            CommitSqlDao ..|> ICommitDao
+            CommentSqlDao ..|> ICommentDao
+            
+            
+        }
+    
+        folder TextDAO {
+        
+            class UserTextDao {
+            }
+            
+            class RepositoryTextDao {
+            }
+        
+            class FileTextDao {
+            }
+         
+            class IssueTextDao {
+            }
+         
+            class CommitTextDao {
+            }
+         
+            class CommentTextDao {
+            }
+            
+            UserTextDao ..|> IUserDao
+            RepositoryTextDao ..|> IRepositoryDao
+            FileTextDao ..|> IFileDao
+            IssueTextDao ..|> IIssueDao
+            CommitTextDao ..|> ICommitDao
+            CommentTextDao ..|> ICommentDao
+            
+        }
+    }
+    
+    IDataConnector *-- IUserDao
+    IDataConnector *-- IRepositoryDao
+    IDataConnector *-- IFileDao
+    IDataConnector *-- ICommitDao
+    IDataConnector *-- ICommentDao
+    IDataConnector *-- IIssueDao
+    
+}
+
+/'package DomainLayer {'/
+
+/'}'/
+
+/'package PresentationLayer {'/
+   
+/'}'/
+
+@enduml

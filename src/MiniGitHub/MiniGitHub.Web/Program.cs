@@ -16,7 +16,9 @@ builder.Services
         options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
     });
 
-builder.Services.AddSingleton<IDataConnector, SqlDataConnector>();
+// builder.Services.AddSingleton<IDataConnector, SqlDataConnector>();
+builder.Services.AddSingleton<IDataConnector, TextDataConnector>();
+
 builder.Services.AddScoped<IRepositoryService, RepositoryService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICommitService, CommitService>();
