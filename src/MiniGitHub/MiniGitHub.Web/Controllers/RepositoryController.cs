@@ -189,6 +189,8 @@ public class RepositoryController(
         }
         
         List<Repository> repos = repoService.GetAllRepos().Where(r => r.OwnerId == userId).ToList();
+        
+        repos.ForEach(r => r.Owner = user);
 
         ListReposVM model = new ListReposVM() {
             User = user,

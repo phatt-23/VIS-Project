@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using MiniGitHub.Data.DataConnector;
+using MiniGitHub.Data.DataConnector.SqlConnector;
 using MiniGitHub.Domain.Mappers;
 using MiniGitHub.Domain.Services;
 using MiniGitHub.Domain.TransactionScript;
@@ -15,7 +16,7 @@ builder.Services
         options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
     });
 
-builder.Services.AddScoped<IDataConnector, SqlDataConnector>();
+builder.Services.AddSingleton<IDataConnector, SqlDataConnector>();
 builder.Services.AddScoped<IRepositoryService, RepositoryService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICommitService, CommitService>();
@@ -41,6 +42,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapStaticAssets();
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}").WithStaticAssets();
-
 
 app.Run();

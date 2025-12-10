@@ -35,7 +35,8 @@
 // TITLE PAGE begin
 #let student_fullname = "Phat Tran Dai"
 #let student_identifier = "TRA0163"
-#let title = "Vývoj informačních systémů"
+#let subtitle = "Information Systems Development"
+#let title = "MiniGitHub"
 
 #set document(
   title: title,
@@ -47,28 +48,21 @@
   margin: 1.2in
 )
 
-#align(top + center)[
-  Vysoká škola báňská - Technická univerzita Ostrava \
-  Fakulta elektrotechniky a informatiky
-]
-
 #align(center + horizon)[
   #text(size: 34pt, weight: "bold", [
     #title
   ])
   #v(0.2em)
   #text(size: 24pt, [
-    MiniGitHub
+    #subtitle
   ])
 ]
 
 #v(40pt)
 
 #align(bottom + left)[
-  Jméno: #student_fullname \
-  Osobní číslo: #student_identifier
-  #h(1fr)  
-  Datum: #datetime.today().display("[day]. [month]. [year]")
+  Name: #student_fullname \
+  Login: #student_identifier
 ]
 
 // TITLE PAGE end
@@ -107,16 +101,16 @@
 
 #show regex("\b\w\b\s"): it => [#it.text.first()~]
 
-#include "1-vize/vize.typ"
+#include "1-vision/vision.typ"
 #pagebreak()
 
-#include "2-funkcni-analyza/funkcni-analyza.typ"
+#include "2-func-analysis/func-analysis.typ"
 #pagebreak()
 
-#include "3-tech-analyza/tech-analyza.typ"
+#include "3-tech-analysis/tech-analysis.typ"
 #pagebreak()
 
-#include "4-skica/skica.typ"
+#include "4-wireframe/wireframe.typ"
 #pagebreak()
 
 #include "5-domain-model/domain-model.typ"

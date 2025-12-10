@@ -1,70 +1,75 @@
 @startuml
-title Use Case Diagram – MiniGitHub
+
+title Use Case Diagram - MiniGitHub
 
 left to right direction
-top to bottom direction
+/'top to bottom direction'/
 
-actor "Návštěvník" as Visitor
-actor "Uživatel" as User
-actor "Administrátor" as Admin
+actor "Visitor" as Visitor
+actor "User" as User
 
-rectangle "MiniGitHub" {
-    (Prohlížení veřejných repozitářů) as UC1
-    (Prohlížení profilů uživatelů) as UC2
-    (Registrace) as UC3
-    (Přihlášení) as UC4
-    (Odhlášení) as UC5
-    (Správa profilu) as UC6
-    (Vytvoření repozitáře) as UC7
-    (Commit změn) as UC8
-    (Vytvoření pull requestu) as UC9
-    (Vytvoření issue) as UC10
-    (Komentování issue / PR) as UC11
-    (Odstranění repozitáře) as UC12
-    (Správa uživatelů) as UC13
-    (Audit systému) as UC14
+package "Visitor System" {
+    usecase "Browsing public repositories" as UC1
+    usecase "Viewing user profiles" as UC2
+    usecase "Registration" as UC3
+    usecase "Login" as UC4
+    
+    (View Repoisotory) as UC13
+    (View Profile) as UC14
+    
 }
+
+package "User System" {
+    usecase "Logout" as UC5
+    (Profile management) as UC6
+    (Creating a repository) as UC7
+    (Committing changes) as UC8
+    (Creating an issue) as UC10
+    (Commenting on issue) as UC11
+    (Deleting a repository) as UC12
+    
+    (Preview Selected Files) as UC15
+    (Close an Issue) as UC16
+    
+    (Change Username) as UC17
+    (Change Email) as UC18
+}
+
+
+Visitor <|-- User
 
 ' Relationships
 Visitor --> UC1
 Visitor --> UC2
 Visitor --> UC3
+/'Visitor --> UC13'/
+/'Visitor --> UC14'/
 
 User --> UC4
 User --> UC5
 User --> UC6
 User --> UC7
 User --> UC8
-User --> UC9
 User --> UC10
 User --> UC11
+User --> UC12
 
-Admin --> UC13
-Admin --> UC12
-Admin --> UC14
-
-' Include relationships
-
-' Pull request requires commits
-UC9 ..> UC8 : <<include>>  
-' Must be logged in to create repo
-UC7 ..> UC4 : <<include>>  
-' Must be logged in to commit
-UC8 ..> UC4 : <<include>>
-' Must be logged in to create issue
-UC10 ..> UC4 : <<include>> 
-' Must be logged in to comment
-UC11 ..> UC4 : <<include>> 
 
 ' Extend relationships
 ' After registration, can log in
 UC3 ..> UC4 : <<extend>>   
 ' Login allows profile management
 UC4 ..> UC6 : <<extend>>   
-' Delete repository extends create (admin action)
-UC12 ..> UC7 : <<extend>>  
-' Audit extends user management
-UC14 ..> UC13 : <<extend>> 
+
+UC1 <-- UC13 : <<extend>>
+UC2 <-- UC14 : <<extend>>
+
+UC8 <-- UC15 : <<extend>>
+UC11 <-- UC16 : <<extend>>
+
+UC6 <-- UC17 : <<extend>>
+UC6 <-- UC18 : <<extend>>
 
 
 @enduml
+

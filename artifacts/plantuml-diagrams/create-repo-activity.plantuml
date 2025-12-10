@@ -1,15 +1,20 @@
 @startuml
+
 start
-:Kliknutí na "Nový repozitář";
-:Zobrazení formuláře pro vytvoření repozitáře;
-:Uživatel zadá název, popis a viditelnost;
-if (Je název platný?) then (Ano)
-    :Systém vytvoří repozitář;
-    :Inicializace větve "main";
-    :Uložení do databáze;
-    :Zobrazení stránky repozitáře;
-else (Ne)
-    :Zobrazení chyby "Neplatný název";
+
+:Click on "New Repository";
+:Display the repository creation form;
+:User enters name, description, and visibility;
+
+if (Is the name valid?) then (Yes)
+    :System creates the repository;
+    :Save to database;
+    :Display the repository page;
+else (No)
+    :Show error "Invalid name";
 endif
+
 stop
+
 @enduml
+

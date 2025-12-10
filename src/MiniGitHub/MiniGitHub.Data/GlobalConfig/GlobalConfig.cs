@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Protocols;
 using MiniGitHub.Data.DataConnector;
+using MiniGitHub.Data.DataConnector.SqlConnector;
 
 namespace MiniGitHub.Data;
 

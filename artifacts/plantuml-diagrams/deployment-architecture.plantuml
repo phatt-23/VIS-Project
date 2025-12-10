@@ -1,9 +1,7 @@
 @startuml
-title Deployment Architecture
 
 node "Client Devices" {
-  node "Mobile" as Mobile
-  node "Desktop" as ClientDesktop
+  node "Browser" as Browser 
 }
 
 node "Application Server\n(our instance running)" as AppServer
@@ -13,8 +11,7 @@ node "Database Server" as DBServer {
   file "JSON Storage" as DeployJSON
 }
 
-Mobile --> AppServer
-ClientDesktop --> AppServer
+Browser --> AppServer
 
 AppServer --> DeployRDB
 AppServer --> DeployJSON

@@ -25,7 +25,7 @@ when working in the domain layer.
 The opossite is true. The client is only exposed to the data models
 when working in the data layer.
 
-== Repositories / Services
+== Services
 
 These classes provide actions that we can do basic CRUD operations 
 upon our models. These CRUD operations are translated into database
@@ -35,12 +35,14 @@ and insert multiple records at once. Again the client doesn't have
 to worry about the inner workings of the DB, they just call upon the action
 and it either succeeds or it fails and throws an error.
 
+
+
 #pagebreak()
 
 == Class Diagram
 
 #figure(
-  image("../assets/domain-layer-class-diagram.png"),
+  image("../plantuml-diagrams/class-diagram.png"),
   caption: [Domain Model Class Diagram]
 )
 

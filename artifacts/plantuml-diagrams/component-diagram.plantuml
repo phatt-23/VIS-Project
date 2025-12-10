@@ -1,29 +1,89 @@
 @startuml
-title System Components
+' Layout direction
+/'top to bottom direction'/
 
-package "Presentation Layer" {
-  [Web UI] as Web
-  [Desktop UI] as Desktop
+/'left to right direction'/
+
+' ----------------------------
+' External Data Sources
+' ----------------------------
+interface "Data Source" as DA_SRC
+
+database "Database" {
+    frame "DB Types" {
+        (SQLite)
+        (CSV)
+    }
+    
+    Database -- DA_SRC : provides
 }
 
-package "Domain Layer" {
-  [Entities] as Ent
-  [Mappers] as Map
-  [Services] as Repo
-}
-
+' ----------------------------
+' Data Layer
+' ----------------------------
+    interface "Persistence of Domain Entities" as DATA_PER
+    interface "Querying Data Entities" as DATA_QR
 package "Data Layer" {
-  [Relational Database] as RDB
-  [JSON Storage] as JSON
+    interface "Data Access" as DA
+    
+    
+
+    [Data Connector] 
+    [Table Data Gateway]
+    [Row Entities]
+
+
+    DA -- [Data Connector] : abstraction
+    
+    DATA_PER -- [Table Data Gateway] : provides
+    DATA_QR -- [Table Data Gateway] : provides
+    
+    [Table Data Gateway] ..> [Row Entities] : use
+    
+    [Table Data Gateway] ..> DA : use
+    [Data Connector] ..> DA_SRC : use
 }
 
-Web --> Repo
-Desktop --> Repo
-Repo --> Map
-Map --> Ent
+' ----------------------------
+' Domain Layer
+' ----------------------------
+    interface "Querying Domain Entities" as DOM_QR
+    interface "Domain Logic" as DOM_LOG
+package "Domain Layer" {
+    
+    
 
-Repo --> RDB : store/query
-Repo --> JSON : read/write text
+        [Mapper]
+        [Service]
+        [Domain Entities]
+
+    
+    [Service] ..> Mapper : use
+    [Service] ..> DATA_PER : use
+    [Service] ..> DATA_QR : use
+    
+    [Mapper] ..> [Domain Entities] : use
+    [Service] ..> [Domain Entities] : use
+    
+    DOM_QR -- [Service] : provides
+    DOM_LOG -- [Service] : provides
+}
+
+' ----------------------------
+' Presentation Layer
+' ----------------------------
+package "Presentation Layer" {
+    [Model]
+    [View]
+    [Controller]
+    
+    [Controller] ..> DOM_QR : use
+    [Controller] ..> DOM_LOG : use
+    
+    [Controller] ..> [View] : creates
+    [Controller] ..> [Model] : creates
+    [View] ..> [Model] : use
+}
 
 @enduml
 

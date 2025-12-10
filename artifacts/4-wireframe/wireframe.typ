@@ -1,5 +1,17 @@
-= Skica
+= Wireframe
 
+#figure(
+  image("../assets/wireframe/create-commit.png"),
+  caption: [Writeframe - Add Commit]
+)
+
+#figure(
+  image("../assets/wireframe/repo-view.png"),
+  caption: [Writeframe - Repository View]
+)
+
+
+/*
 == Sign In/Sign Up/Sign Out
 
 #figure(
@@ -103,4 +115,4 @@
   caption: [Skica - Create Commit],
 )
 
-
+*/

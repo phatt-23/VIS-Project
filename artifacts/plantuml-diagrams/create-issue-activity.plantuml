@@ -1,17 +1,23 @@
 @startuml
+
 start
-:Otevření stránky repozitáře;
-:Kliknutí na "New Issue";
-:Zobrazení formuláře pro issue;
-:Uživatel vyplní název, popis, štítky a assignee;
-:Kliknutí na "Create Issue";
-if (Jsou vstupy platné?) then (Ano)
-    :Systém uloží issue do databáze;
-    :Nastaví stav na "Open";
-    :Zobrazí stránku s novým issue;
-else (Ne)
-    :Zobrazení chybové zprávy;
-    :Uživatel může opravit vstupy;
+
+:Open repository page;
+:Click "New Issue";
+:Display issue creation form;
+:User fills in title, description, labels, and assignee;
+:Click "Create Issue";
+
+if (Are inputs valid?) then (Yes)
+    :System saves the issue to the database;
+    :Sets status to "Open";
+    :Displays page with the new issue;
+else (No)
+    :Show error message;
+    :User can correct inputs;
 endif
+
 stop
+
 @enduml
+

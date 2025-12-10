@@ -1,0 +1,133 @@
+@startuml
+/'hide circle'/
+/'skinparam classAttributeIconSize 0'/
+/'top to bottom direction'/
+/'left to right direction'/
+
+package DataLayer {
+
+    abstract class IdentifiableEntity {
+        #long id
+    }
+    
+    class GlobalConfig {
+        +string textDBFolderPath
+        +DbConnectionString connString
+    }
+    
+    interface IDataConnector {
+        +BeginTransaction(): void
+        +CommitTransaction(): void
+        +Rollback(): void
+        +ResolveGateway<T>(): ITableDataGateway<T>
+    }
+    
+    class SqlDataConnector implements IDataConnector {
+        -DbConnection connection
+    }
+    
+    class TextDataConnector implements IDataConnector {
+        -string repoFilename
+        -string userFilename
+    }
+    
+    interface ITableDataGateway<T> {
+        Create(T entity): T?
+        Get(long id): T?
+        GetAll(): List<T>
+        Update(T entity): T?
+        Delete(long id): T?
+    }
+    
+    class SqlEntityTableDataGateway implements ITableDataGateway<Entity> {
+    }
+    
+    class TextEntityTableDataGateway implements ITableDataGateway<Entity> {
+    }
+
+    class DataEntity extends IdentifiableEntity {
+    }
+    
+    SqlDataConnector ..> GlobalConfig
+    TextDataConnector ..> GlobalConfig
+    
+    ITableDataGateway ..> DataEntity
+    
+    SqlEntityTableDataGateway *-- SqlDataConnector
+    TextEntityTableDataGateway *-- TextDataConnector
+}
+
+package DomainLayer {
+    abstract class IdentifiableEntity {
+        #long id
+    }
+
+    class DomainEntity extends IdentifiableEntity {
+    
+    }
+    
+    interface IConvertor<D, T> {
+        FromData(D dataEntity): T
+        ToData(T domainEntity): D
+    }
+    
+    class IdentityMap<T> {
+        -Dictionary<long, T> cache
+        
+        +Exists(long id): bool
+        +Get(long id): T
+        +Put(T t): void
+    }
+    
+    abstract class DataMapper<D, T> {
+        #ITableDataGateway<T> gateway
+        #IConvertor<D, T> convertor
+        #IdentityMap<T> idMap
+    
+        +GetAll(): List<T>
+        +Get(long id): T?
+        +Create(T entity): T?
+        +Update(T entity): T?
+        +Delete(long id): T?
+    }
+    
+    class EntityDataMapper extends DataMapper<Entity> {
+    }
+    
+    class EntityConvertor implements IConvertor<DataEntity, DomainEntity> {
+    }
+    
+    class EntityService {
+        -EntityDataMapper dataMapper
+        
+        +DomainAction0(): void
+        +DomainAction1(): void
+    }
+    
+    DataMapper *-- IdentityMap
+    DataMapper ..> IDataConnector : to attain gateway
+    DataMapper *-- ITableDataGateway
+    DataMapper *-- IConvertor 
+    
+    EntityService *-- EntityDataMapper
+    
+    IdentityMap o-- IdentifiableEntity
+    
+    EntityDataMapper ..> DomainEntity
+    EntityDataMapper ..> DataEntity
+    
+    EntityConvertor ..> DataEntity
+    EntityConvertor ..> DomainEntity
+}
+
+package PresentationLayer {
+    class Controller {
+        Index(): IActionResult
+        Detail(): IActionResult
+        OtherAction(): IActionResult
+    }
+    
+    Controller --> EntityService
+}
+
+@enduml
